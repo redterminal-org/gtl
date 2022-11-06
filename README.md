@@ -1,5 +1,3 @@
-Official repository and project is on [codeberg](https://codeberg.org/bacardi55/gtl). Github is only a mirror.
-
 # GTL: Gemini Tiny Logs
 
 [![builds.sr.ht status](https://builds.sr.ht/~bacardi55/gtl.svg)](https://builds.sr.ht/~bacardi55/gtl?)
