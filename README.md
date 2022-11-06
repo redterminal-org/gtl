@@ -2,6 +2,11 @@ Official repository and project is on [codeberg](https://codeberg.org/bacardi55/
 
 # GTL: Gemini Tiny Logs
 
+[![builds.sr.ht status](https://builds.sr.ht/~bacardi55/gtl.svg)](https://builds.sr.ht/~bacardi55/gtl?)
+[![license: AGPL-3.0-only](https://img.shields.io/badge/license-AGPL--3.0--only-informational.svg)](LICENSE)
+
+Official repository and project is on [sourcehut](https://git.sr.ht/~bacardi55/gtl). Github and codeberg are only mirrors.
+
 Goal: A TUI for the [tinylogs](https://codeberg.org/bacardi55/gemini-tinylog-rfc/src/branch/main) format on the [gemini](gemini.circumlunar.space/) space.
 
 ![Gtl TUI screenshot](docs/images/gtl_tui_screenshot.png)
