@@ -107,7 +107,7 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 		return
 	}
 
-	rf.Content = string(content)
+	rf.Content = strings.ReplaceAll(string(content), "\r\n", "\n")
 	rf.Status = FeedValid
 	chFeedContent <- rf
 	chFeedError <- nil
