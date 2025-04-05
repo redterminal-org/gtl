@@ -729,7 +729,7 @@ func getSelectedEntryText() (*core.TlFeedItem, error) {
 		return nil, fmt.Errorf("Couldn't parse selected entry - nb of line issue.")
 	}
 
-	date := strings.Split(lines[0], "-")
+	date := strings.Split(lines[0], " - ")
 	if len(date) < 2 {
 		return nil, fmt.Errorf("Couldn't parse selected entry - date issue.")
 	}
