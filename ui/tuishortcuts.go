@@ -465,7 +465,7 @@ func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
 		return nil
 	}
 
-	links := extractLinks(tlfi)
+	links := extractLinksFromOrigEntry(tlfi)
 	var err error
 
 	if len(links) < 1 {
@@ -671,7 +671,7 @@ func gemtextFormatModal(tlfi *core.TlFeedItem) string {
 func isReponseToEntry(entry string) bool {
 	lines := strings.Split(entry, "\n")
 
-	re := regexp.MustCompile(`(?im)^(↳|\x{1F4AC})`)
+	re := regexp.MustCompile(`(?im)^(=> ?gemini://(.*?) )?(↳|\x{1F4AC}|re:)`)
 	return re.MatchString(lines[0])
 }
 
@@ -686,11 +686,14 @@ func findOriginalEntry(entry string) *core.TlFeedItem {
 	if i := strings.Index(line, "@"); i > -1 {
 		author = strings.Split(line[i:], " ")[0]
 		index = i + len(author)
+	} else {
+		author = strings.Split(line, " ")[0]
+		index = len(author)
 	}
 
 	index2 := strings.Index(line, "→")
 	if index2 == -1 {
-		index2 = len(line) - 1
+		index2 = len(line)
 	}
 	stringDate := strings.TrimSpace(line[index:index2])
 
@@ -733,19 +736,23 @@ func getSelectedEntryText() (*core.TlFeedItem, error) {
 	if len(date) < 2 {
 		return nil, fmt.Errorf("Couldn't parse selected entry - date issue.")
 	}
-	d := core.ParseTlDate(strings.TrimSpace(date[1]))
 
-	tlfi := &core.TlFeedItem{
-		Author:    lines[1],
-		Content:   strings.TrimSpace(strings.Join(lines[2:], "\n")),
-		Published: d,
+	origEntry := findOriginalEntry(lines[1] + " " + date[1] + "\n")
+
+	if origEntry == nil {
+		return nil, fmt.Errorf("Couldn't find original Entry")
 	}
 
-	return tlfi, nil
+	return origEntry, nil
 }
 
 func extractLinks(tlfi *core.TlFeedItem) []string {
 	re := regexp.MustCompile("(?im)→ (gemini|gopher|https{0,1})://(.*)$")
+	return re.FindAllString(tlfi.Content, -1)
+}
+
+func extractLinksFromOrigEntry(tlfi *core.TlFeedItem) []string {
+	re := regexp.MustCompile("(?im)=> ?(gemini|gopher|https{0,1})://(.*)$")
 	return re.FindAllString(tlfi.Content, -1)
 }
 

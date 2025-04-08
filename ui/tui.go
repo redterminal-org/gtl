@@ -750,9 +750,23 @@ func gemtextFormat(s string, isHighlighted bool, emoji bool, config *core.TlConf
 			linkColor = config.Tui_color_links
 		}
 	}
-	re = regexp.MustCompile("(?im)^(=>) ?([^\n]*[\n]*)")
-	s = re.ReplaceAllString(s, "[#"+linkColor+":-:b]→ $2"+closeFormat)
 
+	// If Link has description output only that, if not, output URL
+	re = regexp.MustCompile("(?i)^(=>) ?([^ ]*) *(.*)?$")
+	arr := strings.Split(s, "\n")
+	s = ""
+	for _, l := range arr {
+		m := re.FindStringSubmatch(l)
+		if m != nil {
+			if m[3] != "" {
+				s += "[#" + linkColor + ":-:b]→ " + m[3] + closeFormat + "\n"
+			} else {
+				s += "[#" + linkColor + ":-:b]→ " + m[2] + closeFormat + "\n"
+			}
+		} else {
+			s += l + "\n"
+		}
+	}
 	// Format responses:
 	// Must be after link format.
 	re = regexp.MustCompile(`(?im)^(\[skyblue:-:b\]→ [^ ]* ){0,1}(re: )(.*)$`)
