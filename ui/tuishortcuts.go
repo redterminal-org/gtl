@@ -710,7 +710,7 @@ func findOriginalEntry(entry string) *core.TlFeedItem {
 			a = tmp[0]
 		}
 
-		if (strings.Contains(a, author) || strings.Contains(author, a)) && s.Published.Truncate(time.Minute) == date.Truncate(time.Minute) {
+		if (strings.Contains(a, author) || strings.Contains(author, a)) && s.Published.UTC() == date.UTC() {
 			return s
 		}
 	}
