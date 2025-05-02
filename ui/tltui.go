@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"code.rocketnine.space/tslocum/cview"
+	"codeberg.org/tslocum/cview"
 
 	"git.bacardi55.io/bacardi55/gtl/core"
 )

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"code.rocketnine.space/tslocum/cbind"
-	"code.rocketnine.space/tslocum/cview"
+	"codeberg.org/tslocum/cbind"
+	"codeberg.org/tslocum/cview"
 	"github.com/gdamore/tcell/v2"
 
 	"git.bacardi55.io/bacardi55/gtl/core"

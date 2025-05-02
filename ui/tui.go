@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"code.rocketnine.space/tslocum/cview"
+	"codeberg.org/tslocum/cview"
 	"github.com/atotto/clipboard"
 	"github.com/gdamore/tcell/v2"
 
