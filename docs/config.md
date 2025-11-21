@@ -8,8 +8,8 @@
 subscribed_data = "~/.config/gtl/subs"
 # Refresh time:
 refresh = 10
-# Date display format
-date_format = "Mon 02 Jan 2006 15:04 MST"
+# International Time Format - Please use this.
+date_format = "2006-01-02 15:04 -0700"
 # Log file:
 log_file = "/dev/null"
 # Optional: Highlight when text is found in content.
@@ -42,11 +42,11 @@ tinylog_path = "path/to/tinylog/file.gmi"
 # Path to script to be executed after the edition is done.
 # This script needs to be executable.
 # If not a valid executable script, it will be ignored.
-post_edit_script = "path/to/script"
+post_edit_script = "path/to/upload_script"
 # Auto refresh feeds after editing the tinylog file.
 # Only used when allow_edit = true
 # Settings available since v0.5.1
-post_edit_refresh = false
+post_edit_refresh = true
 # Limit the number of entries displayed in TUI.
 # Indicate 0 for all entries.
 # Settings available since v0.6.0
@@ -54,14 +54,14 @@ tui_max_entries = 0
 # Copy a pre formatted text to clipboard when creating a new entry
 # On linux, requires 'xclip' or 'xsel'
 # Settings available since v0.6.0
-tui_copy_stub_clipboard = false
+tui_copy_stub_clipboard = true
 # If you are running gtl without X, the copy to clipboard feature
 # will not work (Or if you don't have `xclip` or `xsel`).
 # In this case, enabling this option will allow gtl to display
 # the sub text in a modal for easy copy in tools like tmux
 # At this stage, the rendering is ugly because of an issue in cview:
 # https://code.rocketnine.space/tslocum/cview/issues/72#issuecomment-3968
-tui_show_stub = false
+tui_show_stub = true
 # TUI Theming:
 # Please see the TUI and theming documentation page in docs/mode-tui.md and docs/theming.md
 # Dracula theme example:
