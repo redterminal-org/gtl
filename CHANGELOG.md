@@ -1,5 +1,21 @@
 CHANGELOG
 
+## v1.0.2-fork
+
+**Fork of original Release**
+I added all the patches sent to bacardi55's dev-mailinglist on sourcehut since
+the last release.
+
+### New Commits:
+* changed module to 'codeberg.org/fab/gtl'
+* Updated to Golang version 1.25.4
+* Update cbind and cview
+* Fix crash on replies to posts with +0000 UTC offset
+* Display only description of link if available, otherwise display URL
+* Fixed getting date from selected entry
+* Add links to replies
+* Handle DOS line endings
+
 ## v1.0.0:
 
 **Major Release**
