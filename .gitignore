@@ -8,6 +8,9 @@
 *.log
 bin/
 
+# gtl binary
+gtl
+
 # Dockerfile is used for build tests
 Dockerfile
 
