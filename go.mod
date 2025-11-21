@@ -1,4 +1,4 @@
-module git.bacardi55.io/bacardi55/gtl
+module codeberg.org/fab/gtl
 
 go 1.25.4
 

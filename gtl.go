@@ -7,9 +7,9 @@ import (
 
 	flag "github.com/spf13/pflag"
 
-	"git.bacardi55.io/bacardi55/gtl/config"
-	"git.bacardi55.io/bacardi55/gtl/core"
-	"git.bacardi55.io/bacardi55/gtl/ui"
+	"codeberg.org/fab/gtl/config"
+	"codeberg.org/fab/gtl/core"
+	"codeberg.org/fab/gtl/ui"
 )
 
 var configFile string

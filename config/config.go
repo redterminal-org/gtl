@@ -12,7 +12,7 @@ import (
 	"github.com/mitchellh/go-homedir"
 	"github.com/pelletier/go-toml"
 
-	"git.bacardi55.io/bacardi55/gtl/core"
+	"codeberg.org/fab/gtl/core"
 )
 
 var defaultConf = []byte(`# Default config file

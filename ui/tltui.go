@@ -6,7 +6,7 @@ import (
 
 	"codeberg.org/tslocum/cview"
 
-	"git.bacardi55.io/bacardi55/gtl/core"
+	"codeberg.org/fab/gtl/core"
 )
 
 type TlTuiSubs struct {

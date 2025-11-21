@@ -7,7 +7,7 @@ import (
 
 	"github.com/fatih/color"
 
-	"git.bacardi55.io/bacardi55/gtl/core"
+	"codeberg.org/fab/gtl/core"
 )
 
 // Display Stream for CLI output.

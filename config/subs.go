@@ -13,7 +13,7 @@ import (
 
 	"github.com/mitchellh/go-homedir"
 
-	"git.bacardi55.io/bacardi55/gtl/core"
+	"codeberg.org/fab/gtl/core"
 )
 
 func getFeeds(subFile string) map[string]core.TlFeed {
