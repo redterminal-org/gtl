@@ -20,7 +20,7 @@ var defaultConf = []byte(`# Default config file
 # Path to subscribed tinylogs:
 subscribed_data = "~/.config/gtl/subs"
 # Date display format
-date_format = "Mon 02 Jan 2006 15:04 MST"
+date_format = "2006-01-02 15:04 -0700"
 # Log file:
 log_file = "/dev/null"
 # Optional: Highlight when text is found in content.
