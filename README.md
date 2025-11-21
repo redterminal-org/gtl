@@ -1,8 +1,10 @@
 # GTL: Gemini Tiny Logs
 
 ## This is a Fork of the GTL Gemini Tiny Log viewer by bacardi55
-It seems bacardi55 has abandoned the project, so I put up this fork with the
-patches included which came in on his development mailing list.
+It seems bacardi55 has abandoned the project, so I put up this fork and I
+already included the pending patches which came in on his development mailing
+list. These are over 7 month old and therefore I think bacardi55 doesn't work
+on his project anymore.
 
 I really don't want to be the new maintainer but I think this app is worth to
 stay alive.
@@ -14,12 +16,13 @@ have or want a Codeberg.org account. I'll commit the send in patches to this
 repository as soon as possible.
 
 There are still glitches with the view of Emojis sometimes so if you want that
-repaired, send in a fix.
+repaired, send in a fix. I hope that at least a few people are interested
+enough to work on this project.
 
 @bacardi55 still maintains the official list of Tinylogs and you'll find it on
 Gemini here:
 
-[bacardi55's list of tinylogs as plaintext file for GTL](gemini://tinylogs.gmi.bacardi55.io/subs.txt)
+[bacardi55's list of tinylogs as plaintext file for GTL on Gemini](gemini://tinylogs.gmi.bacardi55.io/subs.txt)
 
 # Official Repository
 
