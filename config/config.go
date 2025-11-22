@@ -19,7 +19,7 @@ var defaultConf = []byte(`# Default config file
 ## General configuration:
 # Path to subscribed tinylogs:
 subscribed_data = "~/.config/gtl/subs"
-# Date display format
+# Date display in iternational format. Please use this.
 date_format = "2006-01-02 15:04 -0700"
 # Log file:
 log_file = "/dev/null"
