@@ -353,6 +353,7 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 		}
 	}
 
+	tv.SetWordWrap(true)
 	return tv
 }
 
@@ -723,7 +724,7 @@ func gemtextFormat(s string, isHighlighted bool, emoji bool, config *core.TlConf
 	}
 
 	// Format quotes:
-	re := regexp.MustCompile("(?im)^(> .*)($)")
+	re := regexp.MustCompile("(?im)^(>.*)($)")
 	// Quoted text, default color is grey (808080):
 	quoteColor := "808080"
 	if config.Tui_color_quote != "" {
