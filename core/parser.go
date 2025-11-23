@@ -150,13 +150,13 @@ func parseTinyLogContent(rawFeed TlRawFeed) (string, []*TlFeedItem, error) {
 	// Adding 2 non breaking spaces before the start of each line.
 	// Means we don't need to remove them, it just indents preformatted
 	// content, which is even better :).
-	protector := "  "
+	// protector := "  "
 	for _, pf := range(rePreFormatted.FindAllStringSubmatch(content, -1)) {
 		preformattedContent := pf[1]
 		// Get each lines' of preformatted content.
 		reNewLine := regexp.MustCompile("(?im)(^)([^\n]*)($)")
 		// Add protector at start of each lines within preformatted content.
-		protected := reNewLine.ReplaceAll([]byte(preformattedContent), []byte("${1}" + protector + "${2}${3}"))
+		protected := reNewLine.ReplaceAll([]byte(preformattedContent), []byte("${1}${2}${3}"))
 		// Replace old by protected preformatted content in content variable.
 		content = strings.ReplaceAll(content, preformattedContent, string(protected))
 	}
