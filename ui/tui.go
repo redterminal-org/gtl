@@ -16,6 +16,8 @@ import (
 	"codeberg.org/fab/gtl/core"
 )
 
+var Cfg = core.TlConfig{}
+
 var shortcuts = []TlShortcut{
 	{"Navigate", "↑∕↓j/k", "Refresh timeline but keep active filters."},
 	{"Refresh", "r", "Refresh timeline but keep active filters."},
@@ -306,6 +308,34 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 		content = content + fmt.Sprintf("\n[\"entry-"+strconv.Itoa(nbEntries)+"\"]%v - %v\n%v\n%v\n", d, i.Published.Format(data.Config.Date_format), a, c)
 		nbEntries++
 	}
+
+	// colorize Preformatted blocks
+	preformattedColor := "00A000"
+	if data.Config.Tui_color_preformatted != "" {
+		h, e := strconv.ParseInt(data.Config.Tui_color_preformatted, 16, 32)
+		if e != nil || cview.ColorHex(tcell.NewHexColor(int32(h))) == "" {
+			log.Println("Preformatted text color isn't valid (Tui_color_preformatted)")
+		} else {
+			preformattedColor = data.Config.Tui_color_preformatted
+		}
+	}
+	closeFormat := "[-:-:-]"
+	rePreFormatted := regexp.MustCompile("(?sim)^(```([^```]*)```)$")
+	protector := "  "
+	for _, pf := range(rePreFormatted.FindAllSubmatch([]byte(content), -1)) {
+		preformattedContent := pf[0]
+		log.Println("REGEXP1: " + string(pf[0]))
+		// Get each lines' of preformatted content.
+		reNewLine := regexp.MustCompile("(?sim)(^)([^\n]*)($)")
+		// Add protector at start of each lines within preformatted content.
+		protected := reNewLine.ReplaceAll(preformattedContent, []byte("${1}"+ protector + "[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
+		log.Println("REGEXP2: " + string(protected))
+		// Replace old by protected preformatted content in content variable.
+		content = strings.ReplaceAll(content, string(preformattedContent), string(protected))
+	}
+	// delete all delimiters
+	re := regexp.MustCompile("(?m)[\r\n]+^.*```.*$")
+	content = re.ReplaceAllString(content, "")
 
 	tv := cview.NewTextView()
 	tv.SetDynamicColors(true)

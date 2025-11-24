@@ -64,6 +64,7 @@ type TlConfig struct {
 	Tui_color_button_color        string
 	Tui_color_button_focus        string
 	Tui_color_button_focus_text   string
+	Tui_color_preformatted        string
 	// Bookmarks
 	Bookmarks_enabled       bool
 	Bookmarks_file_path     string

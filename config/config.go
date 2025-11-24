@@ -85,6 +85,7 @@ tui_show_stub = false
 #tui_color_selected_foreground = "000000"
 #tui_color_highlight = "FF0000"
 #tui_color_quote = "808080"
+#tui_color_preformatted = "00A000"
 
 # Bookmarks (only available via TUI for now):
 bookmarks_enabled = false
