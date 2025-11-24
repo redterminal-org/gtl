@@ -6,8 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	// TODO: Remove ioutil dependencies since go ≥ 1.16.
-	"io/ioutil"
+	"io"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/pelletier/go-toml"
@@ -53,7 +52,7 @@ tinylog_path = "path/to/tinylog/file.gmi"
 # Path to script to be executed after the edition is done.
 # This script needs to be executable.
 # If not a valid executable script, it will be ignored.
-post_edit_script = "path/to/script"
+post_edit_script = "path/to/upload_script"
 # Auto refresh feeds after editing the tinylog file.
 # Only used when allow_edit = true
 post_edit_refresh = false
@@ -156,9 +155,9 @@ func loadConfig(configFile string, Config *core.TlConfig) error {
 		return nil
 	}()
 
-	b, err := ioutil.ReadAll(file)
+	b, err := io.ReadAll(file)
 	if err != nil {
-		return fmt.Errorf("Couldn't read configuration file; ", configFile)
+		return fmt.Errorf("Couldn't read configuration file; %v", configFile)
 	}
 
 	return toml.Unmarshal(b, Config)
@@ -170,13 +169,13 @@ func loadConfig(configFile string, Config *core.TlConfig) error {
 func getConfigFilePath(configArg string, defaultFilename string) (string, error) {
 	var configFile string
 	if configArg != "" {
-		log.Println("Trying to load provided configuration file (%v)", configArg)
+		log.Printf("Trying to load provided configuration file (%v)", configArg)
 		if e := fileExist(configArg); e != nil {
 			return "", e
 		}
 
 		configFile = configArg
-		log.Println("Configuration file found:", configFile, "\n")
+		log.Println("Configuration file found:", configFile)
 
 	} else {
 		homepath, err := homedir.Dir()
@@ -193,9 +192,8 @@ func getConfigFilePath(configArg string, defaultFilename string) (string, error)
 		configFile = filepath.Join(configDir, defaultFilename)
 
 		// Load or create configFile.
-		log.Println("Trying to load default configuration file (%v)", configFile)
+		log.Printf("Trying to load default configuration file (%v)", configFile)
 		f, err := os.OpenFile(configFile, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666)
-		defer f.Close()
 		if err == nil {
 			log.Println("Default configuration (" + defaultFilename + ") file does not exist yet, creating it…")
 			_, err := f.Write(defaultConf)
@@ -203,6 +201,7 @@ func getConfigFilePath(configArg string, defaultFilename string) (string, error)
 				return "", fmt.Errorf("Default configuration file (" + defaultFilename + ") couldn't be created in default place")
 			}
 		}
+		defer f.Close()
 	}
 
 	return configFile, nil
@@ -258,11 +257,11 @@ func loadBookmarkFile(bookmarkFile string) (string, error) {
 		}
 
 		f, err := os.Create(bfp)
-		defer f.Close()
 		if err == nil {
 			log.Println("Creating custom bookmarks file: " + bookmarkFile)
 			filepath = bfp
 		}
+		defer f.Close()
 	}
 
 	return filepath, nil

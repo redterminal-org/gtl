@@ -12,7 +12,6 @@ import (
 	"codeberg.org/fab/gtl/ui"
 )
 
-var configFile string
 var Data = core.TlData{}
 var Version string
 
@@ -65,7 +64,7 @@ func main() {
 			e := config.RemoveTlSubscription(Data.Config.Subscribed_data, urlArg)
 			if e != nil {
 				fmt.Println(e)
-				log.Fatalln("Error removing entry:\n")
+				log.Fatalln("Error removing entry:")
 			} else {
 				fmt.Println(urlArg, "has been removed from the subscribed list.")
 			}

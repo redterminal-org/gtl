@@ -9,8 +9,6 @@ import (
 	"regexp"
 	"strings"
 
-	"io/ioutil"
-
 	"github.com/mitchellh/go-homedir"
 
 	"codeberg.org/fab/gtl/core"
@@ -119,15 +117,15 @@ func RemoveTlSubscription(filepath string, sub string) error {
 	}
 	defer f.Close()
 
-	fb, err := ioutil.ReadAll(f)
+	fb, err := io.ReadAll(f)
 	if err != nil {
-		return fmt.Errorf("Couldn't read subscription file; ", filepath)
+		return fmt.Errorf("Couldn't read subscription file; %v", filepath)
 	}
 
 	re := regexp.MustCompile("(?m)^(" + sub + ".*)\n")
 	res := re.ReplaceAllString(string(fb), "")
 
-	err = ioutil.WriteFile(subFilePath, []byte(res), 0644)
+	err = os.WriteFile(subFilePath, []byte(res), 0644)
 	if err != nil {
 		return err
 	}

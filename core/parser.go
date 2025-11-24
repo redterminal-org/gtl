@@ -96,7 +96,7 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 	// TODO: Add possibility to validate certs?
 	if respCert := response.TLS().PeerCertificates; len(respCert) > 0 && time.Now().After(respCert[0].NotAfter) {
 		rf.Status = FeedSSLError
-		chFeedError <- fmt.Errorf("Invalid certificate for capsule", feed.Link, " caspule is ignored.")
+		chFeedError <- fmt.Errorf("Invalid certificate for capsule: %v. Capsule ignored.", feed.Link)
 		chFeedContent <- rf
 		return
 	}
@@ -104,7 +104,7 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 	content, err := io.ReadAll(response.Body)
 	if err != nil {
 		rf.Status = FeedWrongFormat
-		chFeedError <- fmt.Errorf("Couldn't read response from tinylogs", feed.Link, ", ignoring feed.")
+		chFeedError <- fmt.Errorf("Couldn't read response from tinylog: %v. Ignoring feed.", feed.Link)
 		chFeedContent <- rf
 		return
 	}
@@ -115,7 +115,6 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 	chFeedError <- nil
 
 	log.Println("Tiny log retrieved from", feed.Link)
-	return
 }
 
 // Parse gemini content of the tinylog file.
@@ -172,7 +171,7 @@ func parseTinyLogContent(rawFeed TlRawFeed) (string, []*TlFeedItem, error) {
 	re := regexp.MustCompile(`(?im)(^## .*)$`)
 	entriesIndex := re.FindAllIndex([]byte(content), -1)
 
-	for i := 0; i < len(entriesIndex); i++ {
+	for i := range len(entriesIndex) {
 		var start, end int
 		start = entriesIndex[i][0]
 		if i+1 == len(entriesIndex) {
@@ -196,9 +195,9 @@ func parseTinyLogContent(rawFeed TlRawFeed) (string, []*TlFeedItem, error) {
 func parseTinyLogHeaderForAuthor(header string) string {
 	var metaAuthor, metaAvatar string
 
-	lines := strings.Split(header, "\n")
+	lines := strings.SplitSeq(header, "\n")
 
-	for _, line := range lines {
+	for line := range lines {
 		if strings.HasPrefix(strings.ToLower(line), "author:") {
 			metaAuthor = strings.TrimSpace(line[len("author:"):])
 		} else if strings.HasPrefix(strings.ToLower(line), "avatar:") {
@@ -223,7 +222,7 @@ func parseTinyLogItem(content string, author string, url string) (TlFeedItem, er
 	lines := strings.Split(content, "\n")
 
 	if len(lines) < 2 {
-		return ft, fmt.Errorf("Ignoring malformed entry", author, content)
+		return ft, fmt.Errorf("Ignoring malformed entry. Author: %v; Content: %v", author, content)
 	}
 
 	pubDate, err := parseTinyLogItemForDate(lines[0])

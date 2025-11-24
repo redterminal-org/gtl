@@ -29,7 +29,7 @@ func refreshStream(data TlData) (*TlStream, error) {
 	wg.Wait()
 
 	var tlfi []*TlFeedItem
-	for i := 0; i < numFeed; i++ {
+	for range numFeed {
 		var rf TlRawFeed
 		var displayName string
 
