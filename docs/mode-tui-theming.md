@@ -27,8 +27,6 @@ tui_color_button_focus = "008000"
 tui_color_button_focus_text = "ffffff"
 ```
 
-![Gtl TUI screenshot](/docs/images/gtl_tui_screenshot.png)
-
 ## Theme example
 
 If you create your own theme, feel free to share it with other here or by contacting me!
@@ -54,9 +52,6 @@ tui_color_button_focus = "ffb86c"
 tui_color_button_focus_text = "282a36"
 ```
 
-![Gtl TUI screenshot (dracula based theme example)](/docs/images/gtl_tui_screenshot_dracula.png)
-
-
 ### Light theme example
 
 ```toml
@@ -77,6 +72,3 @@ tui_color_button_text = "ffffff"
 tui_color_button_focus = "ff0000"
 tui_color_button_focus_text = "111111"
 ```
-
-![Gtl TUI screenshot (light theme example)](/docs/images/gtl_tui_screenshot_light.png)
-

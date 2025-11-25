@@ -1,6 +1,6 @@
 # Use gtl TUI
 
-![Gtl TUI screenshot](docs/images/gtl_tui_screenshot.png)
+![Gtl TUI screenshot](images/gtl_tui_screenshot.jpg)
 
 ```
 gtl --mode tui

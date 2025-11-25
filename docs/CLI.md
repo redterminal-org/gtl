@@ -1,6 +1,6 @@
 # Use gtl CLI
 
-![Gtl CLI screenshot](docs/images/gtl_screenshot.png)
+![Gtl CLI screenshot](images/gtl_tui_screenshot.jpg)
 
 ```
 Usage:

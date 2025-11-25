@@ -80,6 +80,7 @@ tui_show_stub = true
 #tui_color_button_text = "f8f8f2"
 #tui_color_button_focus = "ffb86c"
 #tui_color_button_focus_text = "282a36"
+#tui_color_preformatted = "00a000"
 
 # Bookmarks (only available via TUI for now):
 # Enable/disable bookmarks feature:
