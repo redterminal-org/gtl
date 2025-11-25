@@ -1,6 +1,6 @@
 CHANGELOG
 
-## 1.1.0-fork
+## v1.1.0-fork
 
 ### New Commits:
 * Cleaned up Documentation and broken images
