@@ -1,5 +1,17 @@
 CHANGELOG
 
+## 1.1.0-fork
+
+### New Commits:
+* Cleaned up Documentation and broken images
+* Added support for relative Links (TUI and gemini mode)
+* did some modernization fixes
+* FIXED: Display of preformatted text blocks in TUI mode:
+  Configuration option: 'tui_color_preformatted = "00A0000"'
+* Added word wrapping to TUI mode
+* Removed @GTL header in "gemini" mode
+* GTL now also recognizes "http" links
+
 ## v1.0.2-fork
 
 **Fork of original Release**
