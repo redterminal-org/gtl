@@ -44,8 +44,8 @@ on his project anymore.
 I try to work on GTL on a regular basis and hold it up-to-date and also fix
 bugs. You can also send in Pull Requests and I'll include them in this
 repository. You can also send in patches via `git send-email` if proper
-formatted to `fab@redterminal.org` if you don't have or want a Codeberg.org
-account. I'll commit the send in patches to this repository as soon as possible.
+formatted to `fab@redterminal.org`, if you don't have or want a Codeberg.org
+account. I'll commit the sent in patches to this repository as soon as possible.
 
 @bacardi55 still maintains the official list (but I have doubts) of Tinylogs
 and you'll find it on Gemini here:

@@ -1,6 +1,6 @@
 # Use gtl CLI
 
-![Gtl CLI screenshot](images/gtl_cli_screenshots.jpg)
+![Gtl CLI screenshot](images/gtl_cli_screenshot.jpg)
 
 ```
 Usage:
@@ -26,10 +26,9 @@ You need a subscription file though with the list of tinylogs to follow:
 …
 ```
 
-**Warning**: The `@nameOfTinyLog` is optional. But if you don't indicate one and the tinylog doesn't have an `author: @authorName` metadata, gtl will not no what to display for the author and will indicate "unknown"
+**Warning**: The `@nameOfTinyLog` is not optional anymore since the latest RFC update. So you really should add a name with the non-optional `@` at the beginning. Best is to use the official tinylog subscription list, which can be still be found at [bacardi55's gemini site'](gemini://tinylogs.gmi.bacardi55.io/subs.txt).
 
-This file should be in your configuration file:
-
+The subscribed tinylog list file is configured with this configuration option:
 ```toml
 subscribed_data = "path/to/sub/file"
 ```
