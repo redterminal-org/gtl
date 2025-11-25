@@ -334,7 +334,7 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 		content = strings.ReplaceAll(content, string(preformattedContent), string(protected))
 	}
 	// delete all delimiters
-	re := regexp.MustCompile("(?m)[\r\n]+^.*```.*$")
+	re := regexp.MustCompile("(?m)[\n]^.*```.*$")
 	content = re.ReplaceAllString(content, "")
 
 	tv := cview.NewTextView()
