@@ -746,12 +746,11 @@ func getSelectedEntryText() (*core.TlFeedItem, error) {
 	return origEntry, nil
 }
 
-func extractLinks(tlfi *core.TlFeedItem) []string {
-	re := regexp.MustCompile("(?im)→ (gemini|gopher|https|http{0,1})://(.*)$")
-	return re.FindAllString(tlfi.Content, -1)
-}
-
 func extractLinksFromOrigEntry(tlfi *core.TlFeedItem) []string {
+	reUri := regexp.MustCompile("(?i)(gemini://.*?/)(.*)?")
+	uri := reUri.ReplaceAllString(tlfi.Uri, "${1}")
+	reRelative := regexp.MustCompile("(?im)^=> ?/([^ ]*?)(.*)$")
+	tlfi.Content = reRelative.ReplaceAllString(tlfi.Content, "=> " + uri + "${1}${2}")
 	re := regexp.MustCompile("(?im)=> ?(gemini|gopher|https|http{0,1})://(.*)$")
 	return re.FindAllString(tlfi.Content, -1)
 }
