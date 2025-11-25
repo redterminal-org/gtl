@@ -232,6 +232,12 @@ func parseTinyLogItem(content string, author string, url string) (TlFeedItem, er
 	entry := strings.Join(lines[1:], "\n")
 
 	ft.Content = strings.TrimSpace(entry)
+
+	reUri := regexp.MustCompile("(?i)(gemini://.*?/)(.*)?")
+	uri := reUri.ReplaceAllString(url, "${1}")
+	reRelative := regexp.MustCompile("(?im)^=> ?/([^ ]*?)(.*)$")
+	ft.Content = reRelative.ReplaceAllString(ft.Content, "=> " + uri + "${1}${2}")
+
 	ft.Published = pubDate
 	// This will have a better use when gemtext specification will
 	// allow Uri fragments:
