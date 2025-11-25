@@ -52,7 +52,7 @@ func displayStreamCli(data *core.TlData, limit int) error {
 				for _, h := range highlights {
 					if strings.Contains(stream.Items[i].Content, strings.TrimSpace(h)) {
 						bo := color.New(color.Bold).Add(color.Italic)
-						bo.Println(stream.Items[i].Content, "\n")
+						bo.Println(stream.Items[i].Content)
 						f = true
 						break
 					}
@@ -60,7 +60,10 @@ func displayStreamCli(data *core.TlData, limit int) error {
 			}
 		}
 		if f == false {
-			fmt.Println(stream.Items[i].Content, "\n")
+			output := stream.Items[i].Content
+			protector := "  "
+			output = strings.ReplaceAll(output, protector + "```", "```")
+			fmt.Println(output)
 		}
 	}
 
@@ -73,7 +76,6 @@ func Help() {
 	CliHelp()
 	fmt.Println()
 	SubHelp()
-	return
 }
 
 func CliHelp() {

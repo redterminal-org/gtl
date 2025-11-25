@@ -320,19 +320,14 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 		}
 	}
 	closeFormat := "[-:-:-]"
-	rePreFormatted := regexp.MustCompile("(?sim)^(```([^```]*)```)$")
 	protector := "  "
-	for _, pf := range(rePreFormatted.FindAllSubmatch([]byte(content), -1)) {
-		preformattedContent := pf[0]
-		log.Println("REGEXP1: " + string(pf[0]))
-		// Get each lines' of preformatted content.
-		reNewLine := regexp.MustCompile("(?sim)(^)([^\n]*)($)")
-		// Add protector at start of each lines within preformatted content.
-		protected := reNewLine.ReplaceAll(preformattedContent, []byte("${1}"+ protector + "[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
-		log.Println("REGEXP2: " + string(protected))
-		// Replace old by protected preformatted content in content variable.
-		content = strings.ReplaceAll(content, string(preformattedContent), string(protected))
-	}
+	// Get each lines' of preformatted content.
+	reNewLine := regexp.MustCompile("(?sim)(^)(" + protector + "[^\n]*)($)")
+	// Add protector at start of each lines within preformatted content.
+	newLine := reNewLine.ReplaceAll([]byte(content), []byte("${1}[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
+	// Replace old by protected preformatted content in content variable.
+	content = strings.ReplaceAll(content, content, string(newLine))
+
 	// delete all delimiters
 	re := regexp.MustCompile("(?m)[\n]^.*```.*$")
 	content = re.ReplaceAllString(content, "")

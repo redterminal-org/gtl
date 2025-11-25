@@ -151,13 +151,7 @@ func parseTinyLogContent(rawFeed TlRawFeed) (string, []*TlFeedItem, error) {
 	// Adding 2 non breaking spaces before the start of each line.
 	// Means we don't need to remove them, it just indents preformatted
 	// content, which is even better :) 
-	mode := Cfg.Mode
-	protector := ""
-	if mode == "gemini" {
-		protector = "  "
-	} else {
-		protector = ""
-	}
+	protector := "  "
 	for _, pf := range(rePreFormatted.FindAllStringSubmatch(content, -1)) {
 		preformattedContent := pf[1]
 		// Get each lines' of preformatted content.
