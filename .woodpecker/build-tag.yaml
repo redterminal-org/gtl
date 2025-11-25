@@ -18,6 +18,8 @@ steps:
     depends_on: build
     image: woodpeckerci/plugin-release
     settings:
+      target: 'main'
       files:
-        - gtl-*
-
+        - "gtl-*"
+      api_key:
+        from_secret: PUBLISHSECRET
