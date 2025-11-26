@@ -1,5 +1,11 @@
 CHANGELOG
 
+## v1.1.1-HOTFIX
+
+### Bug Fixes
+* HOTFIX: Regression - Fix #42: Entries with '#' at the beginning within a
+  preformated text are failing. This should work as expected.
+
 ## v1.1.0-fork
 
 ### New Commits:

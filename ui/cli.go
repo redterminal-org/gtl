@@ -52,7 +52,7 @@ func displayStreamCli(data *core.TlData, limit int) error {
 				for _, h := range highlights {
 					if strings.Contains(stream.Items[i].Content, strings.TrimSpace(h)) {
 						bo := color.New(color.Bold).Add(color.Italic)
-						bo.Println(stream.Items[i].Content)
+						bo.Println(stream.Items[i].Content + "\n")
 						f = true
 						break
 					}
@@ -63,7 +63,7 @@ func displayStreamCli(data *core.TlData, limit int) error {
 			output := stream.Items[i].Content
 			protector := "  "
 			output = strings.ReplaceAll(output, protector + "```", "```")
-			fmt.Println(output)
+			fmt.Println(output + "\n")
 		}
 	}
 
