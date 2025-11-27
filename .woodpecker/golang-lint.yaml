@@ -1,0 +1,8 @@
+steps:
+  - name: golinter
+    image: woodpeckerci/plugin-reviewdog-golangci-lint
+    settings:
+      token:
+        from_secret: GOLINTER
+    when:
+      event: pull_request
