@@ -47,17 +47,17 @@ repository. You can also send in patches via `git send-email` if proper
 formatted to `fab@redterminal.org`, if you don't have or want a Codeberg.org
 account. I'll commit the sent in patches to this repository as soon as possible.
 
-@bacardi55 still maintains the official list (but I have doubts) of Tinylogs
-and you'll find it on Gemini here:
+### Tinylog Subscription List
+I also inherited the 'official' Tinylog subscription list, which you can download
+at the URL below for an up-to-date Tinylog subscription list. If your Tinylog is still
+not on the list or you just started a new Tinylog, send the URL to your Tinylog at
+your Gemini Capsule to my email address [-fab- <fab@redterminal.org>](mailto:fab@redterminal.org).
 
-[bacardi55's list of tinylogs as plaintext file for GTL on Gemini](gemini://tinylogs.gmi.bacardi55.io/subs.txt)
-
-Maybe I'll maintain a more actual list in future, as in the past when I handed
-this back over to @bacardi55.
+['Official' Tinylog Subscription List](https://redterminal.org/tinylog-subscriptions.gmi)
 
 ### Official Repository
 
-@bacardi55's official repository and project is still on [sourcehut](https://git.sr.ht/~bacardi55/gtl),
+@bacardi55's original repository and project is still on [sourcehut](https://git.sr.ht/~bacardi55/gtl),
 but it's completely outdated. I hope @bacardi55 won't be angry on me, that I
 forked his project.
 

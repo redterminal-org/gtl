@@ -43,7 +43,7 @@ Since version 1.0.0, GTL can manage bookmarks:
 
 **TUI Theming**
 
-Please read the [theming documentation](/docs/mode-tui-theming.md) to customize colors in TUI mode.
+Please read the [theming documentation](mode-tui-theming.md) to customize colors in TUI mode.
 
 **TUI Emoji Status:**
 

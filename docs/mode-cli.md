@@ -26,9 +26,9 @@ You need a subscription file though with the list of tinylogs to follow:
 …
 ```
 
-**Warning**: The `@nameOfTinyLog` is not optional anymore since the latest RFC update. So you really should add a name with the non-optional `@` at the beginning. Best is to use the official tinylog subscription list, which can be still be found at [bacardi55's gemini site'](gemini://tinylogs.gmi.bacardi55.io/subs.txt).
+Best is to use the official tinylog subscription list, which can now be found on my Gemini Capsule: [Recent Tinylog Subscription List](https://redterminal.org/tinylog-subscriptions.gmi). You can also directly download the [tinylog-subscriptions.txt](https://redterminal.org/tinylog-subscriptions.txt) file for direct use with GTL.
 
 The subscribed tinylog list file is configured with this configuration option:
 ```toml
-subscribed_data = "path/to/sub/file"
+subscribed_data = "path/to/subscription/file"
 ```

@@ -91,9 +91,9 @@ bookmarks_file = "~/.config/gtl/bookmarks.json"
 bookmarks_reverse_order = true
 ```
 
-By default, gtl will look for ~/.config/gtl/gtl.toml . It will create it if needed.
+By default, gtl will look for ~/.config/gtl/gtl.toml as configuration file. It will create it if needed.
 
-The --config option only look for the file, it will not create it if the file given as argument of --config doesn't exist.
+The --config option only looks for the file, it will not create it if the file given as argument of --config doesn't exist.
 
 ## Subscription management
 

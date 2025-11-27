@@ -1,13 +1,13 @@
 # Use gtl CLI
 
-![Gtl CLI screenshot](images/gtl_tui_screenshot.jpg)
+![Gtl CLI screenshot](images/gtl_cli_screenshot.jpg)
 
 ```
 Usage:
-	--config configFile	Indicate a specific config file.
-	--mode {cli,tui}	Select the cli or tui mode.
-	--limit X		When using cli mode, display only X item.
-	--help			Display this help message.
+	--config <configFile> - Indicate a specific config file.
+	--mode {cli,tui,gemini}	- Select the cli or tui mode.
+	--limit <num>	- When using cli mode, display only <num> items.
+	--help - Display this help message.
 ```
 
 Example:
@@ -19,22 +19,16 @@ gtl --mode cli --limit 10 --config path/to/config/file # with specific path for 
 
 If you don't provide a config file path, gtl will look for it in `{homepath}/.config/gtl/gtl.toml`
 
-You need a subscription file though with the list of tinylogs to follow. For easier migration, the format is the same as [lace](https://friendo.monster/log/lace.html):
+You need a subscription file though with the list of tinylogs to follow:
 ```
-<urlOfTinyLog> nameOfTinyLog
-<urlOfTinyLog2> nameOfTinyLog2
+<urlOfTinyLog> @nameOfTinyLog
+<urlOfTinyLog2> @nameOfTinyLog2
 …
 ```
 
-**Warning**: The `nameOfTinyLog` is optional. But if you don't indicate one and the tinylog doesn't have an `author: @authorName` metadata, gtl will not no what to display for the author and will indicate "unknown"
+Best is to use the official tinylog subscription list, which can now be found on my Gemini Capsule: [Recent Tinylog Subscription List](https://redterminal.org/tinylog-subscriptions.gmi). You can also directly download the [tinylog-subscriptions.txt](https://redterminal.org/tinylog-subscriptions.txt) file for direct use with GTL.
 
-This file should be in your configuration file:
-
+The subscribed tinylog list file is configured with this configuration option:
 ```toml
-subscribed_data = "path/to/sub/file"
-```
-
-You can still use gtl "continuously":
-```
-while true; do clear && ~/bin/gtl --mode cli --limit 10 && sleep 1800; done;
+subscribed_data = "path/to/subscription/file"
 ```

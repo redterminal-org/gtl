@@ -21,10 +21,10 @@ tui_color_selected_background = "FFFFFF"
 tui_color_selected_foreground = "000000"
 tui_color_highlight = "FF0000"
 tui_color_quote = "808080"
-tui_color_button_color = "ffffff"
+tui_color_button_color = "FFFFFF"
 tui_color_button_text = "000000"
 tui_color_button_focus = "008000"
-tui_color_button_focus_text = "ffffff"
+tui_color_button_focus_text = "FFFFFF"
 ```
 
 ## Theme example
