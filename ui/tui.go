@@ -745,7 +745,7 @@ func getStatusIcon(f core.TlFeed) string {
 func gemtextFormat(s string, isHighlighted bool, emoji bool, config *core.TlConfig) string {
 	closeFormat := "[-:-:-]"
 	if isHighlighted == true {
-		closeFormat = "[-:-:b]"
+		closeFormat = "[-:-:-]"
 	}
 
 	// Format quotes:
