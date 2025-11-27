@@ -50,9 +50,12 @@ func displayStreamCli(data *core.TlData, limit int) error {
 
 			if len(highlights) > 0 {
 				for _, h := range highlights {
-					if strings.Contains(stream.Items[i].Content, strings.TrimSpace(h)) {
+					output := stream.Items[i].Content
+					protector := "  "
+					output = strings.ReplaceAll(output, protector + "```", "```")
+					if strings.Contains(output, strings.TrimSpace(h)) {
 						bo := color.New(color.Bold).Add(color.Italic)
-						bo.Println(stream.Items[i].Content + "\n")
+						bo.Println(output + "\n")
 						f = true
 						break
 					}
