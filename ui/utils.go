@@ -15,13 +15,14 @@ type TlUI struct {
 }
 
 func (Ui *TlUI) Run(data *core.TlData, limit int) error {
-	if Ui.Mode == "cli" {
+	switch Ui.Mode {
+	case "cli":
 		return displayStreamCli(data, limit)
-	} else if Ui.Mode == "tui" {
+	case "tui":
 		return displayStreamTui(data)
-	} else if Ui.Mode == "gemini" {
+	case "gemini":
 		return displayStreamGemini(data, limit)
-	} else {
+	default:
 		return fmt.Errorf("Unknown mode.")
 	}
 }

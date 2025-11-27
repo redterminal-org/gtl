@@ -81,8 +81,8 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 	rf := TlRawFeed{Name: n, Url: feed.Link}
 
 	gemclient := &gemini.Client{}
-	ctx, _ := context.WithTimeout(context.Background(), time.Duration(2)*time.Second)
-
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(2)*time.Second)
+	defer cancel()
 	response, err := gemclient.Get(ctx, feed.Link)
 	if err != nil || response.Status.Class() != gemini.StatusSuccess {
 		rf.Status = FeedUnreachable

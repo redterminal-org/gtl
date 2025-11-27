@@ -237,7 +237,7 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 
 		itemContent := i.Content
 		// Special for "[" and "]" to avoid special treatment from cview.TextView:
-		itemContent = strings.Replace(itemContent, "]", "[]", -1)
+		itemContent = strings.ReplaceAll(itemContent, "]", "[]")
 
 		f := false
 		if len(data.Config.Highlights) > 0 && i.Author != data.Config.Ignore_author_highlights {
@@ -685,34 +685,18 @@ func createRefreshBox(config *core.TlConfig) *cview.Panels {
 	return p
 }
 
-func getHelpContent(field string) string {
-	text := field + ":\n\n"
-
-	for _, s := range shortcuts {
-		switch field {
-		case "Names":
-			text = text + s.Name + "\n"
-		case "Descriptions":
-			text = text + s.Description + "\n"
-		case "Commands":
-			text = text + s.Command + "\n"
-		}
-	}
-
-	return text
-}
-
 func getStatusIcon(f core.TlFeed) string {
 	status := f.Status
 	r := ""
 	if TlTui.TlConfig.Tui_status_emoji == true {
-		if status == core.FeedValid {
+		switch status {
+		case core.FeedValid:
 			r = "✔"
-		} else if status == core.FeedUnreachable {
+		case core.FeedUnreachable:
 			r = "💀"
-		} else if status == core.FeedWrongFormat {
+		case core.FeedWrongFormat:
 			r = "❌"
-		} else if status == core.FeedSSLError {
+		case core.FeedSSLError:
 			r = "🔓"
 		}
 		if f.DisplayName == TlTui.Filter {
@@ -722,13 +706,14 @@ func getStatusIcon(f core.TlFeed) string {
 			r = "🔕" + r
 		}
 	} else {
-		if status == core.FeedValid {
+		switch status {
+		case core.FeedValid:
 			r = "V"
-		} else if status == core.FeedUnreachable {
+		case core.FeedUnreachable:
 			r = "D"
-		} else if status == core.FeedWrongFormat {
+		case core.FeedWrongFormat:
 			r = "X"
-		} else if status == core.FeedSSLError {
+		case core.FeedSSLError:
 			r = "S"
 		}
 		if f.DisplayName == TlTui.Filter {
@@ -967,7 +952,7 @@ func createResponseStub(tlfi *core.TlFeedItem, dateFormat string) string {
 
 	stub := "## " + time.Now().Format(dateFormat) + "\n=> " + tlfi.Uri +
 		" RE: " + a + " " + tlfi.Published.Format(dateFormat) + "\n"
-	for _, l := range strings.Split(tlfi.Content, "\n") {
+	for l := range strings.SplitSeq(tlfi.Content, "\n") {
 		// Ignore separator line:
 		if strings.Contains(l, "           ---------------------------") {
 			continue
@@ -1004,7 +989,7 @@ func hightlightContent(content string, highlights []string, hightlightColor stri
 	for _, h := range highlights {
 		h = strings.TrimSpace(h)
 		if strings.Contains(content, h) {
-			content = strings.Replace(content, h, "[:#"+hightlightColor+":]"+h+"[:-:]", -1)
+			content = strings.ReplaceAll(content, h, "[:#"+hightlightColor+":]"+h+"[:-:]")
 			f = true
 		}
 	}

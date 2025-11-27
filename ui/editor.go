@@ -22,7 +22,7 @@ func (tle *TlEditor) Init(tinylogPath string, postScriptPath string, postScriptR
 	env_editor := os.Getenv("EDITOR")
 	path_editor, err := exec.LookPath(env_editor)
 	if err != nil {
-		return fmt.Errorf("Couldn't find the editor. os.Getenv('EDITOR') returns:", env_editor, "\n", err)
+		return fmt.Errorf("Couldn't find the editor. os.Getenv('EDITOR') returns: (%v):\n%v", env_editor, err)
 	}
 	tle.Editor = path_editor
 
@@ -31,11 +31,11 @@ func (tle *TlEditor) Init(tinylogPath string, postScriptPath string, postScriptR
 	// Make sure tinylog file exists.
 	tlFilePath, e := homedir.Expand(tinylogPath)
 	if e != nil {
-		return fmt.Errorf("Couldn't find tinylog file\n", e)
+		return fmt.Errorf("Couldn't find tinylog file: %v\n", e)
 	}
 	_, e = os.Stat(tlFilePath)
 	if e != nil {
-		return fmt.Errorf("Couldn't find tinylog file\n", e)
+		return fmt.Errorf("Couldn't find tinylog file: %v\n", e)
 	}
 	tle.TlFilePath = tlFilePath
 
@@ -43,11 +43,11 @@ func (tle *TlEditor) Init(tinylogPath string, postScriptPath string, postScriptR
 	if postScriptPath != "" {
 		psp, e := homedir.Expand(postScriptPath)
 		if e != nil {
-			return fmt.Errorf("Couldn't find post script file\n", e)
+			return fmt.Errorf("Couldn't find post script file: %v\n", e)
 		}
 		f, e := os.Stat(psp)
 		if e != nil {
-			return fmt.Errorf("Couldn't find post script file\n", e)
+			return fmt.Errorf("Couldn't find post script file: %v\n", e)
 		}
 		if f.Mode()&0111 == 0111 {
 			tle.PostEditionScript = psp

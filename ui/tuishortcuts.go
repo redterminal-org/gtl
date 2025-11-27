@@ -392,7 +392,7 @@ func openEditorHandler(ev *tcell.EventKey) *tcell.EventKey {
 			TlTui.FormModal.GetForm().Clear(true)
 			// The format is ugly because an issue in cview:
 			// https://code.rocketnine.space/tslocum/cview/issues/72#issuecomment-3968
-			TlTui.FormModal.SetText(strings.Replace(text, "\n", "\n\n", -1))
+			TlTui.FormModal.SetText(strings.ReplaceAll(text, "\n", "\n\n"))
 			TlTui.FormModal.SetTextAlign(cview.AlignLeft)
 			TlTui.FormModal.GetForm().AddButton("Reply", func() {
 				toggleFormModal()
@@ -710,7 +710,7 @@ func findOriginalEntry(entry string) *core.TlFeedItem {
 			a = tmp[0]
 		}
 
-		if (strings.Contains(a, author) || strings.Contains(author, a)) && s.Published.UTC() == date.UTC() {
+		if (strings.Contains(a, author) || strings.Contains(author, a)) && time.Time.Equal(s.Published.UTC(), date.UTC()) {
 			return s
 		}
 	}
@@ -764,7 +764,7 @@ func getSelectedEntryNumber() int {
 	}
 
 	if len(h) == 1 {
-		i, e := strconv.Atoi(strings.Replace(h[0], "entry-", "", -1))
+		i, e := strconv.Atoi(strings.ReplaceAll(h[0], "entry-", ""))
 		if e == nil {
 			return i
 		}

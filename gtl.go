@@ -43,7 +43,8 @@ func main() {
 	config.Init(configArg, &Data)
 
 	if len(os.Args) > 1 {
-		if os.Args[1] == "add" {
+		switch os.Args[0] {
+		case "add":
 			if urlArg == "" {
 				ui.SubHelp()
 				log.Fatalln("No url to add!")
@@ -56,7 +57,7 @@ func main() {
 				fmt.Println(urlArg, "has been added to the subscribed list.")
 			}
 			os.Exit(0)
-		} else if os.Args[1] == "rm" {
+		case "rm":
 			if urlArg == "" {
 				ui.SubHelp()
 				log.Fatalln("No url to remove")

@@ -33,7 +33,7 @@ func getFeeds(subFile string) map[string]core.TlFeed {
 	}
 	defer func() error {
 		if err = file.Close(); err != nil {
-			log.Fatalln("Couldn't close subsciption file (%v)\n%v: ", subFile, err)
+			log.Fatalf("Couldn't close subsciption file (%v)\n%v: ", subFile, err)
 		}
 		return nil
 	}()
@@ -74,7 +74,7 @@ func parseSubscriptions(content io.Reader) (map[string]core.TlFeed, error) {
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		return Feeds, fmt.Errorf("reading standard input:", err)
+		return Feeds, fmt.Errorf("reading standard input: %v", err)
 	}
 
 	return Feeds, nil
