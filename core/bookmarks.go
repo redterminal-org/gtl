@@ -9,11 +9,13 @@ import (
 func SaveBookmarksToFile(file string, bookmarks TlBookmarks) error {
 	bookmarksJson, err := json.MarshalIndent(bookmarks, "", "  ")
 	if err != nil {
+		log.Printf("SaveBookmarkToFile err: %v", err)
 		return err
 	}
 
 	err = os.WriteFile(file, bookmarksJson, 0666)
 	if err != nil {
+		log.Printf("loadBookmarkFile err: %v", err)
 		return err
 	}
 

@@ -16,8 +16,6 @@ import (
 	"codeberg.org/fab/gtl/core"
 )
 
-var Cfg = core.TlConfig{}
-
 var shortcuts = []TlShortcut{
 	{"Navigate", "↑∕↓j/k", "Refresh timeline but keep active filters."},
 	{"Refresh", "r", "Refresh timeline but keep active filters."},
@@ -321,7 +319,7 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 	}
 	closeFormat := "[-:-:-]"
 	protector := "  "
-	// Get each lines' of preformatted content.
+	// Get each lines of preformatted content.
 	reNewLine := regexp.MustCompile("(?sim)(^)(" + protector + "[^\n]*)($)")
 	// Add protector at start of each lines within preformatted content.
 	newLine := reNewLine.ReplaceAll([]byte(content), []byte("${1}[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
@@ -998,6 +996,27 @@ func hightlightContent(content string, highlights []string, hightlightColor stri
 }
 
 func addEntryToBookmarks(tlfi *core.TlFeedItem) error {
+	// colorize Preformatted blocks
+	preformattedColor := "00A000"
+	if TlTui.TlConfig.Tui_color_preformatted != "" {
+		h, e := strconv.ParseInt(TlTui.TlConfig.Tui_color_preformatted, 16, 32)
+		if e != nil || cview.ColorHex(tcell.NewHexColor(int32(h))) == "" {
+			fmt.Println("Preformatted text color isn't valid (Tui_color_preformatted)")
+		} else {
+			preformattedColor = TlTui.TlConfig.Tui_color_preformatted
+		}
+	}
+	closeFormat := "[-:-:-]"
+	protector := "  "
+	// Get each lines of preformatted content.
+	reNewLine := regexp.MustCompile("(?sim)(^)(" + protector + "[^\n]*)($)")
+	// Add protector at start of each lines within preformatted content.
+	newLine := reNewLine.ReplaceAll([]byte(tlfi.Content), []byte("${1}[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
+	// Replace old by protected preformatted content in content variable.
+	tlfi.Content = strings.ReplaceAll(tlfi.Content, tlfi.Content, string(newLine))
+	// delete all delimiters
+	re := regexp.MustCompile("(?m)[\n]^.*" + protector + "```.*$")
+	tlfi.Content = re.ReplaceAllString(tlfi.Content, "")
 	// Add to current list of bookmarks:
 	TlTui.TlBookmarks.Bookmarks = append(TlTui.TlBookmarks.Bookmarks, *tlfi)
 	// Save to file:
@@ -1057,6 +1076,7 @@ func getBookmarksTextView(bookmarks []core.TlFeedItem, config core.TlConfig) *cv
 	tv.SetToggleHighlights(false)
 
 	content := getBookmarksTextViewContent(bookmarks, config)
+	tv.SetWordWrap(true)
 	tv.SetText(content)
 
 	// Theming:

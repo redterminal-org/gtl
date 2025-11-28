@@ -260,6 +260,12 @@ func loadBookmarkFile(bookmarkFile string) (string, error) {
 		if err == nil {
 			log.Println("Creating custom bookmarks file: " + bookmarkFile)
 			filepath = bfp
+			// write empty JSON to file
+			_, err = f.WriteString("{}")
+			if err != nil {
+				fmt.Printf("Error writing to bookmarks file: %v", err)
+			}
+
 		}
 		defer f.Close()
 	}
