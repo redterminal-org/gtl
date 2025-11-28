@@ -13,7 +13,7 @@ import (
 )
 
 var Data = core.TlData{}
-var Version string
+var Version string = "devel"
 
 func main() {
 	var configArg, modeArg, urlArg, titleArg string
