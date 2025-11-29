@@ -107,6 +107,7 @@ func sideBarBox(data *core.TlData) *cview.Panels {
 	p.SetBorderColor(tcell.ColorWhite.TrueColor())
 	// If in config:
 	if data.Config.Tui_color_box != "" {
+	TlTui.BookmarksBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
 		h, e := strconv.ParseInt(data.Config.Tui_color_box, 16, 32)
 		if e != nil {
 			log.Println("Focus color isn't valid (tui_color_box)")
@@ -924,16 +925,34 @@ func updateFormModalContent(message string, mainButtonName string, buttonName st
 }
 
 func toggleFormModal() {
-	if TlTui.DisplayFormModal == false {
-		TlTui.DisplayFormModal = true
-		TlTui.ContentBox.SendToBack("timeline")
-		TlTui.ContentBox.SendToFront("newEntryModal")
-		TlTui.ContentBox.ShowPanel("newEntryModal")
+	if TlTui.isMainApp {
+		if TlTui.MainModal == false {
+			TlTui.ContentBox.SendToBack("timeline")
+			TlTui.ContentBox.SendToFront("newEntryModal")
+			TlTui.ContentBox.ShowPanel("newEntryModal")
+			TlTui.MainModal = true
+		} else {
+			log.Println("Hide Main Modal")
+			TlTui.ContentBox.SendToBack("newEntryModal")
+			TlTui.ContentBox.SendToFront("timeline")
+			TlTui.ContentBox.HidePanel("newEntryModal")
+			TlTui.MainModal = false
+			TlTui.App.SetRoot(TlTui.Layout, true)
+		}
 	} else {
-		TlTui.DisplayFormModal = false
-		TlTui.ContentBox.SendToFront("timeline")
-		TlTui.ContentBox.SendToBack("newEntryModal")
-		TlTui.ContentBox.HidePanel("newEntryModal")
+		if TlTui.BookmarksModal == false {
+			TlTui.BookmarksBox.SendToBack("bookmarks")
+			TlTui.BookmarksBox.SendToFront("newEntryModal")
+			TlTui.BookmarksBox.ShowPanel("newEntryModal")
+			TlTui.BookmarksModal = true
+		} else {
+			log.Println("Hide Bookmark Modal")
+			TlTui.BookmarksBox.SendToBack("newEntryModal")
+			TlTui.BookmarksBox.SendToFront("bookmarks")
+			TlTui.BookmarksBox.HidePanel("newEntryModal")
+			TlTui.BookmarksModal = false
+			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
+		}
 	}
 }
 
@@ -1064,7 +1083,7 @@ func createBookmarksBox(data *core.TlData) *cview.Panels {
 	}
 
 	TlTui.BookmarksTV = getBookmarksTextView(data.Bookmarks.Bookmarks, *data.Config)
-	p.AddPanel("timeline", TlTui.BookmarksTV, true, true)
+	p.AddPanel("bookmarks", TlTui.BookmarksTV, true, true)
 
 	return p
 }

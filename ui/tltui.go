@@ -32,7 +32,9 @@ type TlTUI struct {
 	ListTl           *cview.List
 	FocusManager     *cview.FocusManager
 	FormModal        *cview.Modal
-	DisplayFormModal bool
+	isMainApp        bool
+	MainModal        bool
+	BookmarksModal   bool
 	Filter           string
 	FilterHighlights bool
 	FilterSearch     string
@@ -59,7 +61,9 @@ func (TlTui *TlTUI) InitApp() {
 	// Todo: make it configurable.
 	TlTui.DisplaySidebar = true
 
-	TlTui.DisplayFormModal = false
+	TlTui.isMainApp = true
+	TlTui.MainModal = false
+	TlTui.BookmarksModal = false
 
 	TlTui.Clipboard = TlClipboard{
 		Enabled: false,
@@ -99,6 +103,7 @@ func (TlTui *TlTUI) SetAppUI(data *core.TlData) {
 		TlTui.BookmarksBox = createBookmarksBox(data)
 	} else {
 		TlTui.BookmarksBox = cview.NewPanels()
+		focusManager.Add(TlTui.BookmarksBox)
 	}
 
 	TlTui.NbEntries = len(data.Stream.Items)
@@ -113,6 +118,7 @@ func (TlTui *TlTUI) SetAppUI(data *core.TlData) {
 func (TlTui *TlTUI) InitTlEditor(tinylogPath string, postScriptPath string, postScriptRefresh bool) error {
 	TlTui.FormModal = createFormModal(TlTui.TlConfig)
 	TlTui.ContentBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
+	TlTui.BookmarksBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
 
 	if err := Tle.Init(tinylogPath, postScriptPath, postScriptRefresh); err != nil {
 		return err

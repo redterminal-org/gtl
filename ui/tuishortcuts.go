@@ -57,18 +57,24 @@ func (TlTui *TlTUI) SetShortcuts() {
 
 // Manage refresh shortcut.
 func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if TlTui.DisplayFormModal == true {
+	if (TlTui.MainModal || TlTui.BookmarksModal) {
 		return ev
 	}
 
 	var refreshStart = func() {
-		TlTui.App.SetRoot(TlTui.RefreshBox, true)
-		TlTui.FocusManager.Focus(TlTui.RefreshBox)
+		if TlTui.isMainApp {
+			TlTui.App.SetRoot(TlTui.Layout, true)
+		} else {
+			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
+		}
 	}
 
 	var refreshEnd = func() {
-		TlTui.App.SetRoot(TlTui.Layout, true)
-		TlTui.FocusManager.Focus(TlTui.ContentBox)
+		if TlTui.isMainApp {
+			TlTui.App.SetRoot(TlTui.Layout, true)
+		} else {
+			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
+		}
 	}
 
 	var refresh = func() {
@@ -78,12 +84,16 @@ func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
 	TlTui.App.QueueUpdateDraw(refreshStart)
 	TlTui.App.QueueUpdate(refresh)
 	TlTui.App.QueueUpdateDraw(refreshEnd)
-	TlTui.FocusManager.Focus(TlTui.ContentBox)
+	if TlTui.isMainApp {
+		TlTui.App.SetRoot(TlTui.Layout, true)
+	} else {
+		TlTui.App.SetRoot(TlTui.BookmarksBox, true)
+	}
 	return nil
 }
 
 func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if TlTui.DisplayFormModal == true || TlTui.BookmarksBox.HasFocus() {
+	if (TlTui.MainModal || TlTui.BookmarksModal) || TlTui.BookmarksBox.HasFocus() {
 		return ev
 	}
 
@@ -93,7 +103,11 @@ func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 		// Remove search filter:
 		TlTui.FilterSearch = ""
 		TlTui.RefreshStream(false)
-		TlTui.FocusManager.Focus(TlTui.ContentBox)
+		if TlTui.isMainApp {
+			TlTui.App.SetRoot(TlTui.Layout, true)
+		} else {
+			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
+		}
 
 		return nil
 	} else if ev.Rune() == 't' {
@@ -106,7 +120,11 @@ func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 		// Select "All" in subscription sidebar:
 		TlTui.ListTl.SetCurrentItem(0)
 		TlTui.RefreshStream(false)
-		TlTui.FocusManager.Focus(TlTui.ContentBox)
+		if TlTui.isMainApp {
+			TlTui.App.SetRoot(TlTui.Layout, true)
+		} else {
+			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
+		}
 
 		return nil
 	} else if ev.Rune() == '/' {
@@ -118,8 +136,6 @@ func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 			// to be able to search only a filtered entries
 			// Refresh stream (without updating tinylogs):
 			TlTui.RefreshStream(false)
-			// Focus content box:
-			TlTui.FocusManager.Focus(TlTui.ContentBox)
 
 			// Clean search filter after displaying search results.
 			// This avoids having previous search still highlighted.
@@ -144,15 +160,15 @@ func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 // s: hide/Show sidebar.
 // q: quit.
 func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if TlTui.DisplayFormModal == true && ev.Key() != tcell.KeyESC {
+	if (TlTui.MainModal == true || TlTui.BookmarksModal == true) && ev.Key() != tcell.KeyESC {
 		return ev
 	}
 
 	if ev.Key() == tcell.KeyTAB {
-		if TlTui.DisplayFormModal == true {
+		if (TlTui.MainModal || TlTui.BookmarksModal) {
 			return ev
 		}
-		// If help of if sidebar is hidden, nothing to switch focus to.
+		// If help or if sidebar is hidden, nothing to switch focus to.
 		if TlTui.Help == false && TlTui.DisplaySidebar == true {
 			TlTui.FocusManager.FocusNext()
 		}
@@ -165,18 +181,18 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 			TlTui.App.SetRoot(TlTui.Layout, true)
 			return nil
 
-		} else if TlTui.DisplayFormModal == true {
+		} else if (TlTui.MainModal || TlTui.BookmarksModal) {
 			// Hide modal if displayed.
 			toggleFormModal()
 			return nil
 
-		} else if TlTui.ContentBox.HasFocus() == true {
+		} else if TlTui.isMainApp {
 			TlTui.TimelineTV.Highlight("")
-		} else if TlTui.BookmarksBox.HasFocus() {
+		} else if !TlTui.isMainApp {
 			TlTui.BookmarksTV.Highlight("")
 		}
 	} else if ev.Rune() == 's' {
-		if TlTui.DisplayFormModal == true {
+		if (TlTui.MainModal || TlTui.BookmarksModal) {
 			return ev
 		}
 		sidebarToggleDisplay()
@@ -209,21 +225,23 @@ func helpToggleDisplay(ev *tcell.EventKey) *tcell.EventKey {
 
 // Hide / Show sidebar.
 func sidebarToggleDisplay() {
-	if TlTui.DisplaySidebar == true {
-		TlTui.MainFlex.RemoveItem(TlTui.SideBarBox)
-		TlTui.DisplaySidebar = false
-		TlTui.FocusManager.Focus(TlTui.ContentBox)
-	} else {
-		TlTui.MainFlex.AddItemAtIndex(0, TlTui.SideBarBox, 0, 1, true)
-		TlTui.DisplaySidebar = true
-		TlTui.FocusManager.Focus(TlTui.SideBarBox)
+	if TlTui.isMainApp {
+		if TlTui.DisplaySidebar == true {
+			TlTui.MainFlex.RemoveItem(TlTui.SideBarBox)
+			TlTui.DisplaySidebar = false
+			TlTui.FocusManager.Focus(TlTui.ContentBox)
+		} else {
+			TlTui.MainFlex.AddItemAtIndex(0, TlTui.SideBarBox, 0, 1, true)
+			TlTui.DisplaySidebar = true
+			TlTui.FocusManager.Focus(TlTui.SideBarBox)
+		}
 	}
 }
 
 // Manage entry selection.
 func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 	// Only usable on ContentBox or BookmarkBox.
-	if TlTui.DisplayFormModal == true || TlTui.HelpBox.HasFocus() {
+	if (TlTui.MainModal || TlTui.BookmarksModal) || TlTui.HelpBox.HasFocus() {
 		return ev
 	}
 
@@ -234,7 +252,7 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 	}
 
 	selectedEntry := getSelectedEntryNumber()
-	if TlTui.ContentBox.HasFocus() {
+	if TlTui.isMainApp {
 		if ev.Rune() == 'J' {
 			max := TlTui.NbEntries
 			if TlTui.TlConfig.Tui_max_entries > 0 && TlTui.TlConfig.Tui_max_entries < TlTui.NbEntries {
@@ -257,7 +275,7 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 		TlTui.TimelineTV.Highlight("entry-" + strconv.Itoa(selectedEntry))
 		TlTui.TimelineTV.ScrollToHighlight()
 
-	} else if TlTui.BookmarksBox.HasFocus() {
+	} else if !TlTui.isMainApp {
 		if ev.Rune() == 'J' {
 			max := len(TlTui.TlBookmarks.Bookmarks)
 			// Highlight next item.
@@ -293,7 +311,7 @@ func entryHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if !TlTui.ContentBox.HasFocus() || TlTui.DisplayFormModal {
+	if (TlTui.MainModal || TlTui.BookmarksModal) {
 		return ev
 	}
 
@@ -329,11 +347,18 @@ func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
 		e := tcell.NewEventKey(0, 'R', tcell.ModNone)
 		openEditorHandler(e)
 	})
-	TlTui.FormModal.GetForm().AddButton("Bookmark", func() {
-		toggleFormModal()
-		bookmarkHandler(nil)
-	})
-
+	if TlTui.isMainApp {
+		TlTui.FormModal.GetForm().AddButton("Bookmark", func() {
+			toggleFormModal()
+			bookmarkHandler(nil)
+		})
+	}
+	if !TlTui.isMainApp {
+		TlTui.FormModal.GetForm().AddButton("Delete", func() {
+			toggleFormModal()
+			bookmarkDeleteHandler(nil)
+		})
+	}
 	tlUrl := ""
 	for i := 0; i < len(TlTui.TlStream.Items); i++ {
 		if tlfi.Author == TlTui.TlStream.Items[i].Author {
@@ -421,7 +446,6 @@ func launchEditor() {
 					m = "Couldn't run script, please check the logs."
 					buttonName = "ok"
 					updateFormModalContent(m, "ok", "", func() {})
-					TlTui.FocusManager.Focus(TlTui.ContentBox)
 				} else {
 					toggleFormModal()
 					if Tle.PostScriptRefresh == true {
@@ -443,11 +467,10 @@ func launchEditor() {
 		updateFormModalContent(message, mainButtonName, buttonName, execFunc)
 		toggleFormModal()
 	}
-	TlTui.FocusManager.Focus(TlTui.ContentBox)
 }
 
 func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if !TlTui.ContentBox.HasFocus() || TlTui.DisplayFormModal {
+	if (TlTui.MainModal || TlTui.BookmarksModal) {
 		return ev
 	}
 
@@ -517,15 +540,13 @@ func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
 		toggleFormModal()
 	}
 
-	TlTui.FocusManager.Focus(TlTui.ContentBox)
 	return nil
 }
 
 func threadHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if !TlTui.ContentBox.HasFocus() || TlTui.DisplayFormModal {
+	if (TlTui.MainModal || TlTui.BookmarksModal) {
 		return ev
 	}
-	TlTui.FocusManager.Focus(TlTui.ContentBox)
 	if getSelectedEntryNumber() < 0 {
 		updateFormModalContent("No selected entry.", "Ok", "", func() {})
 		toggleFormModal()
@@ -561,7 +582,7 @@ func threadHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func bookmarkHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if TlTui.DisplayFormModal == true || TlTui.HelpBox.HasFocus() || TlTui.BookmarksBox.HasFocus() {
+	if !TlTui.isMainApp {
 		return ev
 	}
 
@@ -597,7 +618,7 @@ func bookmarkHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func bookmarkDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if TlTui.DisplayFormModal == true || TlTui.HelpBox.HasFocus() {
+	if (TlTui.MainModal || TlTui.BookmarksModal) || TlTui.HelpBox.HasFocus() {
 		return ev
 	}
 
@@ -607,16 +628,16 @@ func bookmarkDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 		return ev
 	}
 
-	if TlTui.BookmarksBox.HasFocus() == false {
+	if TlTui.isMainApp {
+		TlTui.isMainApp = false
 		// Refresh content from bookmarks data:
 		TlTui.BookmarksTV.SetText(getBookmarksTextViewContent(TlTui.TlBookmarks.Bookmarks, *TlTui.TlConfig))
 		// Remove highlights from ContentBox
 		TlTui.TimelineTV.Highlight("")
 		TlTui.App.SetRoot(TlTui.BookmarksBox, true)
 	} else {
+		TlTui.isMainApp = true
 		TlTui.App.SetRoot(TlTui.Layout, true)
-		// Focus back on ContentBox
-		TlTui.FocusManager.Focus(TlTui.ContentBox)
 		// Remove highlights
 		TlTui.BookmarksTV.Highlight("")
 	}
@@ -625,7 +646,7 @@ func bookmarkDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func bookmarkDeleteHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if !TlTui.BookmarksBox.HasFocus() {
+	if TlTui.isMainApp {
 		return ev
 	}
 
