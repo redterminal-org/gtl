@@ -1,5 +1,18 @@
 CHANGELOG
 
+## v1.1.2-fork
+
+### New Commits:
+* Made Bookmarks useable with "Open Links", "Open Thread", "Reply", "Delete" and "Open Tinylog"
+* added Version string "devel" if building from source
+* woodpecker-ci: Added version to binaries
+* deleted unneeded Makefile
+* .md files: Updated documentation a little
+* Fixed some linting messages
+* Removed protector from CLI mode preformatted text separator
+* Disabled highlight of plain text without defined text to highlight
+* woodpecker-ci: added Go Linter for Pull Requests
+
 ## v1.1.1-HOTFIX
 
 ### Bug Fixes
