@@ -24,6 +24,12 @@ gtl --help
 
 Please read the [installation page](docs/install.md).
 
+### Bookmarks (since tag v1.1.2-fork)
+If you're updating from an older release, you have to delete your
+`bookmarks.json` file and let the gtl binary create a new one, because the 
+previous ones have created an invalid JSON file and therefore GTL will disable
+bookmark functionality if using the old file.
+
 ## Configuration
 
 Please read the [configuration page](docs/config.md)
