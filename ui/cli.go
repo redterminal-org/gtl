@@ -75,7 +75,7 @@ func displayStreamCli(data *core.TlData, limit int) error {
 
 // Display help message.
 func Help() {
-	fmt.Println("gtl is a CLI and TUI (soon) tool for gemini tinylogs")
+	fmt.Println("gtl is a CLI and TUI tool for gemini tinylogs")
 	CliHelp()
 	fmt.Println()
 	SubHelp()
@@ -84,7 +84,7 @@ func Help() {
 func CliHelp() {
 	fmt.Println("CLI usage:")
 	fmt.Println("\t--config configFile\tIndicate a specific config file.")
-	fmt.Println("\t--mode {cli,tui}\tSelect the cli or tui mode.")
+	fmt.Println("\t--mode {cli,tui,gemini}\tSelect the cli,tui or gemini mode.")
 	fmt.Println("\t--limit X\t\tWhen using cli mode, display only X item.")
 	fmt.Println("\t--version\t\tDisplay gtl's current version.")
 	fmt.Println("\t--help\t\t\tDisplay this help message.")

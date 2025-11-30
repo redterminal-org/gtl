@@ -21,7 +21,7 @@ func main() {
 	var cliLimitArg int
 
 	flag.StringVar(&configArg, "config", "", "The path to gtl.toml config file.")
-	flag.StringVar(&modeArg, "mode", "", "The mode for gtl, either cli or tui (not ready yet).")
+	flag.StringVar(&modeArg, "mode", "", "The mode for gtl, either 'cli', 'tui' or 'gemini'.")
 	flag.StringVar(&urlArg, "url", "", "The tinylog url you want to (un)subscribe to.")
 	flag.StringVar(&titleArg, "title", "", "The optional title of the tinylog you want to subscribe to.")
 	flag.IntVar(&cliLimitArg, "limit", 0, "Limit number of items in CLI mode.")
