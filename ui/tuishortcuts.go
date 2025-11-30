@@ -62,16 +62,14 @@ func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
 	}
 
 	var refreshStart = func() {
-		if TlTui.isMainApp {
-			TlTui.App.SetRoot(TlTui.Layout, true)
-		} else {
-			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
-		}
+		TlTui.App.SetRoot(TlTui.RefreshBox, true)
+		TlTui.FocusManager.Focus(TlTui.RefreshBox)
 	}
 
 	var refreshEnd = func() {
 		if TlTui.isMainApp {
 			TlTui.App.SetRoot(TlTui.Layout, true)
+			TlTui.FocusManager.Focus(TlTui.ContentBox)
 		} else {
 			TlTui.App.SetRoot(TlTui.BookmarksBox, true)
 		}
