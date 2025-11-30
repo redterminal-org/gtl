@@ -3,12 +3,12 @@ module codeberg.org/fab/gtl
 go 1.25.4
 
 require (
-	codeberg.org/tslocum/cbind v0.1.6
-	codeberg.org/tslocum/cview v1.6.0
+	codeberg.org/tslocum/cbind v0.1.7
+	codeberg.org/tslocum/cview v1.6.2
 	git.sr.ht/~adnano/go-gemini v0.2.6
 	github.com/atotto/clipboard v0.1.4
 	github.com/fatih/color v1.18.0
-	github.com/gdamore/tcell/v2 v2.9.0
+	github.com/gdamore/tcell/v2 v2.13.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pelletier/go-toml v1.9.5
 	github.com/spf13/pflag v1.0.10
