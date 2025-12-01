@@ -91,7 +91,7 @@ func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) || TlTui.BookmarksBox.HasFocus() {
+	if (TlTui.MainModal || TlTui.BookmarksModal || !TlTui.isMainApp) {
 		return ev
 	}
 
