@@ -1,5 +1,16 @@
 CHANGELOG
 
+## v1.1.3-fork
+
+### New Commits:
+* changed exclusion case for Search ("/"), Timeline ("t") and Highlights ("h") keys in Bookmarks page
+* Updated Golang dependencies
+* Fix regression: Display of Refresh Screen
+* Changed timeout for reading tinylogs to 3 seconds
+* Updated --help output
+* Updated documentation (bookmarks)
+* woodpecker-ci: added ldflags -s -w to disable symbol table and disable DWARF generation
+
 ## v1.1.2-fork
 
 ### New Commits:
