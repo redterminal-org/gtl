@@ -147,7 +147,7 @@ func parseTinyLogContent(rawFeed TlRawFeed) (string, []*TlFeedItem, error) {
 
 	protector := "  "
 	isPre := false
-	for line := range(contSplit) {
+	for line := range contSplit {
 		if (strings.HasPrefix(contSplit[line], "```")) && (isPre == false) {
 			contSplit[line] = protector + contSplit[line]
 			isPre = true
@@ -163,7 +163,7 @@ func parseTinyLogContent(rawFeed TlRawFeed) (string, []*TlFeedItem, error) {
 		}
 	}
 	if isPre {
-		contSplit = append(contSplit, protector + "```")
+		contSplit = append(contSplit, protector+"```")
 	}
 
 	content = strings.Join(contSplit, "\n")
@@ -237,7 +237,7 @@ func parseTinyLogItem(content string, author string, url string) (TlFeedItem, er
 	reUri := regexp.MustCompile("(?i)(gemini://.*?/)(.*)?")
 	uri := reUri.ReplaceAllString(url, "${1}")
 	reRelative := regexp.MustCompile("(?im)^=> ?/([^ ]*?)(.*)$")
-	ft.Content = reRelative.ReplaceAllString(ft.Content, "=> " + uri + "${1}${2}")
+	ft.Content = reRelative.ReplaceAllString(ft.Content, "=> "+uri+"${1}${2}")
 
 	ft.Published = pubDate
 	// This will have a better use when gemtext specification will

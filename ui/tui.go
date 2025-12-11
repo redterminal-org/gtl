@@ -107,7 +107,7 @@ func sideBarBox(data *core.TlData) *cview.Panels {
 	p.SetBorderColor(tcell.ColorWhite.TrueColor())
 	// If in config:
 	if data.Config.Tui_color_box != "" {
-	TlTui.BookmarksBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
+		TlTui.BookmarksBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
 		h, e := strconv.ParseInt(data.Config.Tui_color_box, 16, 32)
 		if e != nil {
 			log.Println("Focus color isn't valid (tui_color_box)")
@@ -323,7 +323,7 @@ func getContentTextView(data *core.TlData) *cview.TextView {
 	// Get each lines of preformatted content.
 	reNewLine := regexp.MustCompile("(?sim)(^)(" + protector + "[^\n]*)($)")
 	// Add protector at start of each lines within preformatted content.
-	newLine := reNewLine.ReplaceAll([]byte(content), []byte("${1}[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
+	newLine := reNewLine.ReplaceAll([]byte(content), []byte("${1}[#"+preformattedColor+":-:-]${2}${3}"+closeFormat))
 	// Replace old by protected preformatted content in content variable.
 	content = strings.ReplaceAll(content, content, string(newLine))
 
@@ -1030,7 +1030,7 @@ func addEntryToBookmarks(tlfi *core.TlFeedItem) error {
 	// Get each lines of preformatted content.
 	reNewLine := regexp.MustCompile("(?sim)(^)(" + protector + "[^\n]*)($)")
 	// Add protector at start of each lines within preformatted content.
-	newLine := reNewLine.ReplaceAll([]byte(tlfi.Content), []byte("${1}[#" + preformattedColor + ":-:-]${2}${3}" + closeFormat))
+	newLine := reNewLine.ReplaceAll([]byte(tlfi.Content), []byte("${1}[#"+preformattedColor+":-:-]${2}${3}"+closeFormat))
 	// Replace old by protected preformatted content in content variable.
 	tlfi.Content = strings.ReplaceAll(tlfi.Content, tlfi.Content, string(newLine))
 	// delete all delimiters

@@ -57,7 +57,7 @@ func (TlTui *TlTUI) SetShortcuts() {
 
 // Manage refresh shortcut.
 func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal {
 		return ev
 	}
 
@@ -91,7 +91,7 @@ func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal || !TlTui.isMainApp) {
+	if TlTui.MainModal || TlTui.BookmarksModal || !TlTui.isMainApp {
 		return ev
 	}
 
@@ -163,7 +163,7 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 	}
 
 	if ev.Key() == tcell.KeyTAB {
-		if (TlTui.MainModal || TlTui.BookmarksModal) {
+		if TlTui.MainModal || TlTui.BookmarksModal {
 			return ev
 		}
 		// If help or if sidebar is hidden, nothing to switch focus to.
@@ -179,7 +179,7 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 			TlTui.App.SetRoot(TlTui.Layout, true)
 			return nil
 
-		} else if (TlTui.MainModal || TlTui.BookmarksModal) {
+		} else if TlTui.MainModal || TlTui.BookmarksModal {
 			// Hide modal if displayed.
 			toggleFormModal()
 			return nil
@@ -190,7 +190,7 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 			TlTui.BookmarksTV.Highlight("")
 		}
 	} else if ev.Str() == "s" {
-		if (TlTui.MainModal || TlTui.BookmarksModal) {
+		if TlTui.MainModal || TlTui.BookmarksModal {
 			return ev
 		}
 		sidebarToggleDisplay()
@@ -309,7 +309,7 @@ func entryHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal || TlTui.SideBarBox.HasFocus()) {
+	if TlTui.MainModal || TlTui.BookmarksModal || TlTui.SideBarBox.HasFocus() {
 		return ev
 	}
 
@@ -468,7 +468,7 @@ func launchEditor() {
 }
 
 func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal {
 		return ev
 	}
 
@@ -542,7 +542,7 @@ func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func threadHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal {
 		return ev
 	}
 	if getSelectedEntryNumber() < 0 {
@@ -769,7 +769,7 @@ func extractLinksFromOrigEntry(tlfi *core.TlFeedItem) []string {
 	reUri := regexp.MustCompile("(?i)(gemini://.*?/)(.*)?")
 	uri := reUri.ReplaceAllString(tlfi.Uri, "${1}")
 	reRelative := regexp.MustCompile("(?im)^=> ?/([^ ]*?)(.*)$")
-	tlfi.Content = reRelative.ReplaceAllString(tlfi.Content, "=> " + uri + "${1}${2}")
+	tlfi.Content = reRelative.ReplaceAllString(tlfi.Content, "=> "+uri+"${1}${2}")
 	re := regexp.MustCompile("(?im)=> ?(gemini|gopher|https|http{0,1})://(.*)$")
 	return re.FindAllString(tlfi.Content, -1)
 }
