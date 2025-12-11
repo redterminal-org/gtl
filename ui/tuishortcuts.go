@@ -309,7 +309,7 @@ func entryHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if (TlTui.MainModal || TlTui.BookmarksModal || TlTui.SideBarBox.HasFocus()) {
 		return ev
 	}
 
