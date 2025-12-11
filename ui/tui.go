@@ -11,7 +11,7 @@ import (
 
 	"codeberg.org/tslocum/cview"
 	"github.com/atotto/clipboard"
-	"github.com/gdamore/tcell/v2"
+	"github.com/gdamore/tcell/v3"
 
 	"codeberg.org/fab/gtl/core"
 )
@@ -600,15 +600,15 @@ func createHelpBox(config *core.TlConfig) *cview.Panels {
 
 	// 3 rows: Name, Command, Description.
 	c := getNewTableCell("Name", config)
-	c.SetAttributes(tcell.AttrBold | tcell.AttrUnderline)
+	c.SetAttributes(tcell.AttrBold)
 	helpTable.SetCell(0, 0, c)
 
 	c = getNewTableCell("Command", config)
-	c.SetAttributes(tcell.AttrBold | tcell.AttrUnderline)
+	c.SetAttributes(tcell.AttrBold)
 	helpTable.SetCell(0, 1, c)
 
 	c = getNewTableCell("Description", config)
-	c.SetAttributes(tcell.AttrBold | tcell.AttrUnderline)
+	c.SetAttributes(tcell.AttrBold)
 	helpTable.SetCell(0, 2, c)
 
 	for i, shortcut := range shortcuts {

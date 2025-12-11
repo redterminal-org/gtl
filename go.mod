@@ -2,13 +2,15 @@ module codeberg.org/fab/gtl
 
 go 1.25.4
 
+replace codeberg.org/tslocum/cview => codeberg.org/tslocum/cview v1.6.3-0.20251211054324-18ca7083ca87
+
 require (
-	codeberg.org/tslocum/cbind v0.1.7
-	codeberg.org/tslocum/cview v1.6.2
+	codeberg.org/tslocum/cbind v0.1.8
+	codeberg.org/tslocum/cview v1.6.3-0.20251211054324-18ca7083ca87
 	git.sr.ht/~adnano/go-gemini v0.2.6
 	github.com/atotto/clipboard v0.1.4
 	github.com/fatih/color v1.18.0
-	github.com/gdamore/tcell/v2 v2.13.0
+	github.com/gdamore/tcell/v3 v3.0.3
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pelletier/go-toml v1.9.5
 	github.com/spf13/pflag v1.0.10
@@ -23,8 +25,8 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.19 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
-	golang.org/x/term v0.37.0 // indirect
-	golang.org/x/text v0.31.0 // indirect
+	golang.org/x/net v0.48.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/term v0.38.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 )
