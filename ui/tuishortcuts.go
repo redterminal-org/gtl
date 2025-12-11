@@ -10,7 +10,7 @@ import (
 
 	"codeberg.org/tslocum/cbind"
 	"codeberg.org/tslocum/cview"
-	"github.com/gdamore/tcell/v2"
+	"github.com/gdamore/tcell/v3"
 
 	"codeberg.org/fab/gtl/core"
 )
@@ -57,7 +57,7 @@ func (TlTui *TlTUI) SetShortcuts() {
 
 // Manage refresh shortcut.
 func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal {
 		return ev
 	}
 
@@ -91,11 +91,11 @@ func refreshHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal || !TlTui.isMainApp) {
+	if TlTui.MainModal || TlTui.BookmarksModal || !TlTui.isMainApp {
 		return ev
 	}
 
-	if ev.Rune() == 'h' {
+	if ev.Str() == "h" {
 		// Toggle Highlights filter:
 		TlTui.FilterHighlights = !TlTui.FilterHighlights
 		// Remove search filter:
@@ -108,7 +108,7 @@ func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 		}
 
 		return nil
-	} else if ev.Rune() == 't' {
+	} else if ev.Str() == "t" {
 		// Remove Highlights filter:
 		TlTui.FilterHighlights = false
 		// Remove tinylog filter:
@@ -125,7 +125,7 @@ func mainDisplayHandler(ev *tcell.EventKey) *tcell.EventKey {
 		}
 
 		return nil
-	} else if ev.Rune() == '/' {
+	} else if ev.Str() == "/" {
 		// Open search modal:
 		updateFormModalContent("Filters entries:", "Cancel", "Search", func() {
 			// Hide modal:
@@ -163,7 +163,7 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 	}
 
 	if ev.Key() == tcell.KeyTAB {
-		if (TlTui.MainModal || TlTui.BookmarksModal) {
+		if TlTui.MainModal || TlTui.BookmarksModal {
 			return ev
 		}
 		// If help or if sidebar is hidden, nothing to switch focus to.
@@ -179,7 +179,7 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 			TlTui.App.SetRoot(TlTui.Layout, true)
 			return nil
 
-		} else if (TlTui.MainModal || TlTui.BookmarksModal) {
+		} else if TlTui.MainModal || TlTui.BookmarksModal {
 			// Hide modal if displayed.
 			toggleFormModal()
 			return nil
@@ -189,13 +189,13 @@ func uiChangeHandler(ev *tcell.EventKey) *tcell.EventKey {
 		} else if !TlTui.isMainApp {
 			TlTui.BookmarksTV.Highlight("")
 		}
-	} else if ev.Rune() == 's' {
-		if (TlTui.MainModal || TlTui.BookmarksModal) {
+	} else if ev.Str() == "s" {
+		if TlTui.MainModal || TlTui.BookmarksModal {
 			return ev
 		}
 		sidebarToggleDisplay()
 		return nil
-	} else if ev.Rune() == 'q' {
+	} else if ev.Str() == "q" {
 		// Don't quit if within help.
 		if TlTui.Help == true {
 			TlTui.Help = false
@@ -251,7 +251,7 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 
 	selectedEntry := getSelectedEntryNumber()
 	if TlTui.isMainApp {
-		if ev.Rune() == 'J' {
+		if ev.Str() == "J" {
 			max := TlTui.NbEntries
 			if TlTui.TlConfig.Tui_max_entries > 0 && TlTui.TlConfig.Tui_max_entries < TlTui.NbEntries {
 				max = TlTui.TlConfig.Tui_max_entries
@@ -263,7 +263,7 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 			} else {
 				selectedEntry = max - 1
 			}
-		} else if ev.Rune() == 'K' {
+		} else if ev.Str() == "K" {
 			if selectedEntry > 0 {
 				selectedEntry -= 1
 			} else {
@@ -274,7 +274,7 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 		TlTui.TimelineTV.ScrollToHighlight()
 
 	} else if !TlTui.isMainApp {
-		if ev.Rune() == 'J' {
+		if ev.Str() == "J" {
 			max := len(TlTui.TlBookmarks.Bookmarks)
 			// Highlight next item.
 			if selectedEntry < max-1 {
@@ -282,7 +282,7 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 			} else {
 				selectedEntry = max - 1
 			}
-		} else if ev.Rune() == 'K' {
+		} else if ev.Str() == "K" {
 			if selectedEntry > 0 {
 				selectedEntry -= 1
 			} else {
@@ -298,9 +298,9 @@ func tlNavHandler(ev *tcell.EventKey) *tcell.EventKey {
 
 // Manage shortcuts related to entries.
 func entryHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if ev.Rune() == 'O' {
+	if ev.Str() == "O" {
 		return linksHandler(ev)
-	} else if ev.Rune() == 'T' {
+	} else if ev.Str() == "T" {
 		return threadHandler(ev)
 	} else if ev.Modifiers() == tcell.ModAlt && ev.Key() == tcell.KeyEnter {
 		return shiftEnterHandler(ev)
@@ -309,7 +309,7 @@ func entryHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal || TlTui.SideBarBox.HasFocus() {
 		return ev
 	}
 
@@ -342,7 +342,7 @@ func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
 	})
 	TlTui.FormModal.GetForm().AddButton("Reply", func() {
 		toggleFormModal()
-		e := tcell.NewEventKey(0, 'R', tcell.ModNone)
+		e := tcell.NewEventKey(0, "R", tcell.ModNone)
 		openEditorHandler(e)
 	})
 	if TlTui.isMainApp {
@@ -390,7 +390,7 @@ func shiftEnterHandler(ev *tcell.EventKey) *tcell.EventKey {
 func openEditorHandler(ev *tcell.EventKey) *tcell.EventKey {
 	if TlTui.Clipboard.Enabled || TlTui.TlConfig.Tui_show_stub {
 		var text string
-		if ev.Rune() == 'R' {
+		if ev.Str() == "R" {
 			if getSelectedEntryNumber() < 0 {
 				updateFormModalContent("Select an entry first to be able respond to it.", "Ok", "", func() {})
 				toggleFormModal()
@@ -402,7 +402,7 @@ func openEditorHandler(ev *tcell.EventKey) *tcell.EventKey {
 				toggleFormModal()
 			}
 			text = createResponseStub(tlfi, TlTui.Clipboard.DateFormat)
-		} else if ev.Rune() == 'N' {
+		} else if ev.Str() == "N" {
 			text = createNewEntryStub(TlTui.Clipboard.DateFormat)
 		}
 		if TlTui.Clipboard.Enabled {
@@ -468,7 +468,7 @@ func launchEditor() {
 }
 
 func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal {
 		return ev
 	}
 
@@ -542,7 +542,7 @@ func linksHandler(ev *tcell.EventKey) *tcell.EventKey {
 }
 
 func threadHandler(ev *tcell.EventKey) *tcell.EventKey {
-	if (TlTui.MainModal || TlTui.BookmarksModal) {
+	if TlTui.MainModal || TlTui.BookmarksModal {
 		return ev
 	}
 	if getSelectedEntryNumber() < 0 {
@@ -769,7 +769,7 @@ func extractLinksFromOrigEntry(tlfi *core.TlFeedItem) []string {
 	reUri := regexp.MustCompile("(?i)(gemini://.*?/)(.*)?")
 	uri := reUri.ReplaceAllString(tlfi.Uri, "${1}")
 	reRelative := regexp.MustCompile("(?im)^=> ?/([^ ]*?)(.*)$")
-	tlfi.Content = reRelative.ReplaceAllString(tlfi.Content, "=> " + uri + "${1}${2}")
+	tlfi.Content = reRelative.ReplaceAllString(tlfi.Content, "=> "+uri+"${1}${2}")
 	re := regexp.MustCompile("(?im)=> ?(gemini|gopher|https|http{0,1})://(.*)$")
 	return re.FindAllString(tlfi.Content, -1)
 }

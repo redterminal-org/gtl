@@ -38,7 +38,7 @@ func displayStreamGemini(data *core.TlData, limit int) error {
 	output += "Agregated tinylogs: \n" + strings.Join(authors, "\n")
 
 	protector := "  "
-	output = strings.ReplaceAll(output, protector + "```", "```")
+	output = strings.ReplaceAll(output, protector+"```", "```")
 	fmt.Println(output)
 	return nil
 }
