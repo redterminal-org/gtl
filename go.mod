@@ -2,8 +2,6 @@ module codeberg.org/fab/gtl
 
 go 1.25.4
 
-replace codeberg.org/tslocum/cview => codeberg.org/tslocum/cview v1.6.3-0.20251211054324-18ca7083ca87
-
 require (
 	codeberg.org/tslocum/cbind v0.1.8
 	codeberg.org/tslocum/cview v1.6.3-0.20251211054324-18ca7083ca87
