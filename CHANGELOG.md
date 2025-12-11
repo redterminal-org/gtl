@@ -1,5 +1,14 @@
 CHANGELOG
 
+## v.1.2.0-fork
+
+### New Commits:
+* merged branch "tcellv3"
+* Did some reformatting with Linter
+* Fixed ALT/Enter when sidebar has focus
+* removed "replace" line from go.mod
+* WIP Change to cview tcell/v3 branch
+
 ## v1.1.3-fork
 
 ### New Commits:
