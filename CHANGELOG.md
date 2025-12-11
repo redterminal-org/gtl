@@ -1,6 +1,6 @@
 CHANGELOG
 
-## v.1.2.0-fork
+## v1.2.0-fork
 
 ### New Commits:
 * merged branch "tcellv3"
