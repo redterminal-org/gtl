@@ -1,5 +1,11 @@
 CHANGELOG
 
+## v1.3.0-fork
+
+### New Commits:
+* Updated to Go 1.26.4 and upgraded all dependencies to their newest versions.
+* Fixed missing entries: Timeout raised to 6s. Requests are retried up to 6 times
+
 ## v1.2.0-fork
 
 ### New Commits:

@@ -13,7 +13,7 @@ mv gtl-linux-amd64 ~/bin/gtl
 ```
 
 ## From Source
-gtl requires go ≥ 1.25.4
+gtl requires go ≥ 1.26.4 since tag _v1.3.0-fork_
 
 ```bash
 # clone GTL repository with git
