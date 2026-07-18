@@ -83,12 +83,11 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 	gemclient := &gemini.Client{}
 	ctx, cancel := context.WithTimeout(context.Background(), 6*time.Second)
 	defer cancel()
-	const maxRetries = 6
 	var (
 		response *gemini.Response
 		err      error
 	)
-	for attempt := 1; attempt <= maxRetries; attempt++ {
+	for true {
 		response, err = gemclient.Get(ctx, feed.Link)
 
 		if err == nil && response.Status.Class() == gemini.StatusSuccess {
