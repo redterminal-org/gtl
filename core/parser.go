@@ -81,15 +81,40 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 	rf := TlRawFeed{Name: n, Url: feed.Link}
 
 	gemclient := &gemini.Client{}
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(3)*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 6*time.Second)
 	defer cancel()
-	response, err := gemclient.Get(ctx, feed.Link)
-	if err != nil || response.Status.Class() != gemini.StatusSuccess {
+	const maxRetries = 6
+	var (
+		response *gemini.Response
+		err      error
+	)
+	for attempt := 1; attempt <= maxRetries; attempt++ {
+		response, err = gemclient.Get(ctx, feed.Link)
+
+		if err == nil && response.Status.Class() == gemini.StatusSuccess {
+			break
+		}
+
+		if response != nil && response.Body != nil {
+			response.Body.Close()
+		}
+
+		// Falls das Timeout bereits erreicht wurde, nicht weiter versuchen.
+		if ctx.Err() != nil {
+			break
+		}
+
+		// Optional: kurze Pause zwischen den Versuchen
+		time.Sleep(200 * time.Millisecond)
+	}
+
+	if err != nil || response == nil || response.Status.Class() != gemini.StatusSuccess {
 		rf.Status = FeedUnreachable
-		chFeedError <- fmt.Errorf("Error retrieving content from %v", feed.Link)
+		chFeedError <- fmt.Errorf("error retrieving content from %v: %w", feed.Link, err)
 		chFeedContent <- rf
 		return
 	}
+
 	defer response.Body.Close()
 
 	// TODO: Add an option to accept gemini feeds with expired certificate.
