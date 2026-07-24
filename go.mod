@@ -7,6 +7,7 @@ require (
 	codeberg.org/tslocum/cview v1.6.4
 	git.sr.ht/~adnano/go-gemini v0.2.6
 	github.com/atotto/clipboard v0.1.4
+	github.com/aymanbagabas/go-osc52/v2 v2.0.1
 	github.com/fatih/color v1.19.0
 	github.com/gdamore/tcell/v3 v3.4.0
 	github.com/mitchellh/go-homedir v1.1.0

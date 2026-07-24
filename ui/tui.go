@@ -8,9 +8,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"os"
 
 	"codeberg.org/tslocum/cview"
 	"github.com/atotto/clipboard"
+	"github.com/aymanbagabas/go-osc52/v2"
 	"github.com/gdamore/tcell/v3"
 
 	"codeberg.org/fab/gtl/core"
@@ -981,6 +983,7 @@ func createResponseStub(tlfi *core.TlFeedItem, dateFormat string) string {
 }
 
 func copyToClipboard(content string) error {
+	osc52.New(content).Primary().WriteTo(os.Stderr)
 	return clipboard.WriteAll(content)
 }
 
