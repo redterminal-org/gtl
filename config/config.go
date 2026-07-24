@@ -15,10 +15,14 @@ import (
 )
 
 var defaultConf = []byte(`# Default config file
+#
+# You have to edit this file to enable replying/editing
+# in your tinylog
+
 ## General configuration:
 # Path to subscribed tinylogs:
 subscribed_data = "~/.config/gtl/subs"
-# Date display in iternational format. Please use this.
+# Date display in iternational format. Please don't change this.
 date_format = "2006-01-02 15:04 -0700"
 # Log file:
 log_file = "/dev/null"
@@ -28,7 +32,8 @@ log_file = "/dev/null"
 # Ignore Highlights from author:
 # Must be the full author displayed name!
 # ignore_author_highlights = "🤔 @bacardi55"
-# Maximum number of entries showed in cli mode. If --limit is used, it will overide this setting.
+# Maximum number of entries showed in cli mode.
+# If --limit is used, it will overide this setting.
 # Will be ignored in tui mode.
 cli_limit = 10
 # Mode: either cli or tui
@@ -45,11 +50,11 @@ tui_status_emoji = false
 # ctrl+n is disabled when set to false.
 allow_edit = false
 # Path to tinylog file. This option is ignored if
-# allow_edit = false.
 # If not a valid file, editing will not be possible
 # and ctrl+n will be disabled.
 tinylog_path = "path/to/tinylog/file.gmi"
 # Path to script to be executed after the edition is done.
+# Should upload your tinylog path file to your Gemini Capsule.
 # This script needs to be executable.
 # If not a valid executable script, it will be ignored.
 post_edit_script = "path/to/upload_script"
@@ -58,7 +63,9 @@ post_edit_script = "path/to/upload_script"
 post_edit_refresh = false
 # Limit the number of entries displayed in TUI.
 # Indicate 0 for all entries.
-tui_max_entries = 0
+# (This shouldn't be set to 0! GTL TUI would become VERY sluggish!)
+# 100 entries are enough and reasonable.
+tui_max_entries = 100
 # Copy a pre formatted text to clipboard when creating a new entry
 # On linux, requires 'xclip' or 'xsel'
 tui_copy_stub_clipboard = false
