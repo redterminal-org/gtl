@@ -3,12 +3,15 @@
 ## Default configuration file
 
 ```toml
-# Default config file:
+# Default config file
+#
+# You have to edit this file to enable replying/editing
+# in your tinylog
+
+## General configuration:
 # Path to subscribed tinylogs:
 subscribed_data = "~/.config/gtl/subs"
-# Refresh time:
-refresh = 10
-# International Time Format - Please use this.
+# Date display in iternational format. Please don't change this.
 date_format = "2006-01-02 15:04 -0700"
 # Log file:
 log_file = "/dev/null"
@@ -18,76 +21,70 @@ log_file = "/dev/null"
 # Ignore Highlights from author:
 # Must be the full author displayed name!
 # ignore_author_highlights = "🤔 @bacardi55"
-# Maximum number of entries showed in cli mode. If --limit is used, it will overide this setting.
+# Maximum number of entries showed in cli mode.
+# If --limit is used, it will overide this setting.
 # Will be ignored in tui mode.
 cli_limit = 10
-# Mode: either cli, tui or gemini
+# Mode: either cli or tui
 mode = "tui"
 # If false, standard ascii characters will be used.
 tui_status_emoji = false
 
+## TUI options:
 # Enable tinylog edition from gtl:
 # This will use an external editor,
 # configured in your EDITOR environment variable.
 # You can check with 'echo $EDITOR' to see if it
 # is configured correctly.
 # ctrl+n is disabled when set to false.
-# Settings available since v0.5.0
 allow_edit = false
 # Path to tinylog file. This option is ignored if
-# allow_edit = false.
 # If not a valid file, editing will not be possible
 # and ctrl+n will be disabled.
 tinylog_path = "path/to/tinylog/file.gmi"
 # Path to script to be executed after the edition is done.
+# Should upload your tinylog path file to your Gemini Capsule.
 # This script needs to be executable.
 # If not a valid executable script, it will be ignored.
 post_edit_script = "path/to/upload_script"
 # Auto refresh feeds after editing the tinylog file.
 # Only used when allow_edit = true
-# Settings available since v0.5.1
-post_edit_refresh = true
+post_edit_refresh = false
 # Limit the number of entries displayed in TUI.
 # Indicate 0 for all entries.
-# Settings available since v0.6.0
-tui_max_entries = 0
+# (This shouldn't be set to 0! GTL TUI would become VERY sluggish!)
+# 100 entries are enough and reasonable.
+tui_max_entries = 100
 # Copy a pre formatted text to clipboard when creating a new entry
 # On linux, requires 'xclip' or 'xsel'
-# Settings available since v0.6.0
-tui_copy_stub_clipboard = true
+tui_copy_stub_clipboard = false
 # If you are running gtl without X, the copy to clipboard feature
-# will not work (Or if you don't have `xclip` or `xsel`).
+# will not work (Or if you don't have xclip or xsel).
 # In this case, enabling this option will allow gtl to display
 # the sub text in a modal for easy copy in tools like tmux
 # At this stage, the rendering is ugly because of an issue in cview:
 # https://code.rocketnine.space/tslocum/cview/issues/72#issuecomment-3968
-tui_show_stub = true
-# TUI Theming:
-# Please see the TUI and theming documentation page in docs/mode-tui.md and docs/theming.md
-# Dracula theme example:
-#tui_color_background = "282a36"
-#tui_color_text = "f8f8f2"
-#tui_color_author_name = "ffb86c"
-#tui_color_links = "8be9fd"
-#tui_color_box = "44475a"
-#tui_color_focus_box = "f8f8f2"
-#tui_color_elapsed_time = "f1fa8c"
-#tui_color_selected_background = "f8f8f2"
-#tui_color_selected_foreground = "282a36"
-#tui_color_highlight = "ff79c6"
-#tui_color_quote = "f1fa8c"
-#tui_color_button_color = "44475a"
-#tui_color_button_text = "f8f8f2"
-#tui_color_button_focus = "ffb86c"
-#tui_color_button_focus_text = "282a36"
-#tui_color_preformatted = "00a000"
+tui_show_stub = false
+
+## TUI Theming:
+# Define colors for GTL TUI mode.
+# Default (dark) theme:
+#tui_color_background = "000000"
+#tui_color_box = "FFFFFF"
+#tui_color_focus_box = "008000"
+#tui_color_author_name = "FF0000"
+#tui_color_links = "87CEEB"
+#tui_color_elapsed_time = "87CEEB"
+#tui_color_text = "FFFFFF"
+#tui_color_selected_background = "FFFFFF"
+#tui_color_selected_foreground = "000000"
+#tui_color_highlight = "FF0000"
+#tui_color_quote = "808080"
+#tui_color_preformatted = "00A000"
 
 # Bookmarks (only available via TUI for now):
-# Enable/disable bookmarks feature:
 bookmarks_enabled = false
-# Path to bookmarks file:
-bookmarks_file = "~/.config/gtl/bookmarks.json"
-# Reverse order (from newer to older) instead of default (older to newer):
+bookmarks_file_path = "~/.config/gtl/bookmarks.json"
 bookmarks_reverse_order = true
 ```
 

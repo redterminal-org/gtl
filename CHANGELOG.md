@@ -1,5 +1,14 @@
 CHANGELOG
 
+## v1.4.0-fork
+
+### New Commits:
+* Updated CHANGELOG.md and README docs
+* Added EXPERIMENTAL OSC52 support
+* FIX(defaults): set "tui_max_entries" to 100. Was 0, causing TUI to be SLOW!
+* FIX: requests are now made as often as possible until the timeout in
+  core/parser.go
+
 ## v1.3.0-fork
 
 ### New Commits:
