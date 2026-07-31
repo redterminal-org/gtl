@@ -98,12 +98,12 @@ func loadTinyLogContent(feed TlFeed, chFeedContent chan TlRawFeed, chFeedError c
 			response.Body.Close()
 		}
 
-		// Falls das Timeout bereits erreicht wurde, nicht weiter versuchen.
+		// If the timeout has been reached, do not further try
 		if ctx.Err() != nil {
 			break
 		}
 
-		// Optional: kurze Pause zwischen den Versuchen
+		// optional: short delay between tries
 		time.Sleep(200 * time.Millisecond)
 	}
 
