@@ -29,6 +29,7 @@ func (TlTui *TlTUI) SetShortcuts() {
 
 	c.SetRune(tcell.ModNone, 'O', entryHandler)
 	c.SetRune(tcell.ModNone, 'T', entryHandler)
+	c.SetRune(tcell.ModCtrl, 't', entryHandler)
 	c.SetKey(tcell.ModAlt, tcell.KeyEnter, entryHandler)
 
 	c.SetRune(tcell.ModNone, 'r', refreshHandler)
@@ -302,6 +303,8 @@ func entryHandler(ev *tcell.EventKey) *tcell.EventKey {
 		return linksHandler(ev)
 	} else if ev.Str() == "T" {
 		return threadHandler(ev)
+	} else if ev.Key() == tcell.KeyCtrlT {
+		return selectThreadHandler(ev)
 	} else if ev.Modifiers() == tcell.ModAlt && ev.Key() == tcell.KeyEnter {
 		return shiftEnterHandler(ev)
 	}
@@ -573,6 +576,62 @@ func threadHandler(ev *tcell.EventKey) *tcell.EventKey {
 		}
 	} else {
 		updateFormModalContent("Not a response format, no original to look for.", "Ok", "", func() {})
+		toggleFormModal()
+	}
+
+	return nil
+}
+
+// function to select entry in timeline
+func selectTimelineEntry(entry *core.TlFeedItem) bool {
+	for i, item := range TlTui.TlStream.Items {
+		if item == entry {
+			TlTui.TimelineTV.Highlight("entry-" + strconv.Itoa(i))
+			TlTui.TimelineTV.ScrollToHighlight()
+			return true
+		}
+	}
+
+	return false
+}
+
+// Selects the previous entry of a thread
+func selectThreadHandler(ev *tcell.EventKey) *tcell.EventKey {
+	if TlTui.MainModal || TlTui.BookmarksModal {
+		return ev
+	}
+
+	if getSelectedEntryNumber() < 0 {
+		updateFormModalContent("No selected entry.", "Ok", "", func() {})
+		toggleFormModal()
+		return ev
+	}
+
+	tlfi, e := getSelectedEntryText()
+	if e != nil {
+		updateFormModalContent("Couldn't find a valid entry.", "Ok", "", func() {})
+		toggleFormModal()
+		return ev
+	}
+
+	entry := tlfi.Content
+
+	if !isReponseToEntry(entry) {
+		updateFormModalContent("Not a response format, no original to look for.", "Ok", "", func() {})
+		toggleFormModal()
+		return ev
+	}
+
+	originalEntry := findOriginalEntry(entry)
+
+	if originalEntry == nil {
+		updateFormModalContent("No original entry found.", "Ok", "", nil)
+		toggleFormModal()
+		return ev
+	}
+
+	if !selectTimelineEntry(originalEntry) {
+		updateFormModalContent("Original entry is not visible in timeline.", "Ok", "", nil)
 		toggleFormModal()
 	}
 
