@@ -1,5 +1,11 @@
 CHANGELOG
 
+## v1.4.2-fork
+
+### New Commits:
+* Added feature: Select replied-to entry directly with "CTRL+t"
+* FIX: translated some german comments to english
+
 ## v1.4.0-fork
 
 ### New Commits:
