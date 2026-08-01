@@ -110,7 +110,7 @@ func sideBarBox(data *core.TlData) *cview.Panels {
 	p.SetBorderColor(tcell.ColorWhite.TrueColor())
 	// If in config:
 	if data.Config.Tui_color_box != "" {
-		TlTui.BookmarksBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
+		// TlTui.BookmarksBox.AddPanel("newEntryModal", TlTui.FormModal, true, false)
 		h, e := strconv.ParseInt(data.Config.Tui_color_box, 16, 32)
 		if e != nil {
 			log.Println("Focus color isn't valid (tui_color_box)")
