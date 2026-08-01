@@ -1,5 +1,11 @@
 CHANGELOG
 
+## v1.5.3-fork-BUGFIX
+
+### New Commits:
+* FIX: Issue #4 'tui_color_box' uncommenting/usage crashed GTL on startup
+* Updated mode-tui.md in docs to include new CTRL+t (select replied-to entry)
+
 ## v1.4.2-fork
 
 ### New Commits:
