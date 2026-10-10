@@ -1,6 +1,9 @@
 *CHANGELOG*
 
 ## v1.4.4-fork
+### Config: Added option to configure color of timeline links
+* Added option to "gtl.toml"" named "tui_color_timeline_links" to configure color of links in the timeline.
+* removed ".woodpecker/golang-lint.yaml"
 ### CHANGELOG.md: Rebuild to preferred format
 * Rebuild the CHANGELOG.md from commit history to preferred format
 

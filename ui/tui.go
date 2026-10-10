@@ -3,12 +3,12 @@ package ui
 import (
 	"fmt"
 	"log"
+	"os"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
-	"os"
 
 	"codeberg.org/tslocum/cview"
 	"github.com/atotto/clipboard"
@@ -754,13 +754,13 @@ func gemtextFormat(s string, isHighlighted bool, emoji bool, config *core.TlConf
 	}
 
 	// Format links, default color is skyblue (87CEEB):
-	linkColor := "87ceeb"
-	if config.Tui_color_links != "" {
-		h, e := strconv.ParseInt(config.Tui_color_elapsed_time, 16, 32)
+	linkColor := "87CEEB"
+	if config.Tui_color_timeline_links != "" {
+		h, e := strconv.ParseInt(config.Tui_color_timeline_links, 16, 32)
 		if e != nil || cview.ColorHex(tcell.NewHexColor(int32(h))) == "" {
-			log.Println("Link color isn't valid (Tui_color_links)")
+			log.Println("Link color isn't valid (Tui_color_timeline_links)")
 		} else {
-			linkColor = config.Tui_color_links
+			linkColor = config.Tui_color_timeline_links
 		}
 	}
 

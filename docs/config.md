@@ -74,6 +74,7 @@ tui_show_stub = false
 #tui_color_focus_box = "008000"
 #tui_color_author_name = "FF0000"
 #tui_color_links = "87CEEB"
+#tui_color_timeline_links = "87CEEB"
 #tui_color_elapsed_time = "87CEEB"
 #tui_color_text = "FFFFFF"
 #tui_color_selected_background = "FFFFFF"

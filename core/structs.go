@@ -55,6 +55,7 @@ type TlConfig struct {
 	Tui_color_focus_box           string
 	Tui_color_author_name         string
 	Tui_color_elapsed_time        string
+	Tui_color_timeline_links      string
 	Tui_color_box                 string
 	Tui_color_selected_background string
 	Tui_color_selected_foreground string
